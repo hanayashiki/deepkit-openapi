@@ -1,0 +1,26 @@
+{
+  "name": "deepkit-openapi",
+  "private": true,
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "scripts": {
+  },
+  "dependencies": {
+    "@deepkit/framework": "^1.0.1",
+    "@deepkit/http": "^1.0.1",
+    "@deepkit/type": "^1.0.1",
+    "@deepkit/app": "^1.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

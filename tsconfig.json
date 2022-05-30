@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/example-app/tsconfig.json"
+    },
+    {
+      "path": "packages/deepkit-openapi/tsconfig.json"
+    },
+  ]
+}
