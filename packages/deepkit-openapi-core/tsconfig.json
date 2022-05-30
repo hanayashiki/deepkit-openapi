@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "target": "es2018",
+    "module": "CommonJS",
+    "preserveSymlinks": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "outDir": "./dist/cjs",
+    "composite": true
+  },
+  "reflection": true,
+  "includes": [
+    "*.ts",
+    "*.tsx"
+  ]
+}

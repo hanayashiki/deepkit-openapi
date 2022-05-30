@@ -4,16 +4,19 @@
   "version": "1.0.1-alpha.0",
   "description": "",
   "scripts": {
-    "start": "NODE_OPTIONS=--preserve-symlinks ts-node app server:start",
+    "start": "NODE_OPTIONS=--preserve-symlinks nodemon dist/app server:start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@deepkit/app": "^1.0.1",
-    "@deepkit/framework": "^1.0.1",
-    "@deepkit/http": "^1.0.1",
-    "@deepkit/type": "^1.0.1",
-    "@deepkit/sqlite": "^1.0.1",
+    "@deepkit/app": "^1.0.1-alpha.71",
+    "@deepkit/framework": "^1.0.1-alpha.71",
+    "@deepkit/http": "^1.0.1-alpha.71",
+    "@deepkit/type": "^1.0.1-alpha.71",
+    "@deepkit/sqlite": "^1.0.1-alpha.71",
     "deepkit-openapi": "^0.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   },
   "keywords": [],
   "author": "",

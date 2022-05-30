@@ -8,9 +8,7 @@ import { JSONTransport, Logger } from "@deepkit/logger";
 import { App } from "@deepkit/app";
 import { RpcController } from "./src/controller/rpc.controller";
 import { ApiConsoleModule } from "@deepkit/api-console-module";
-import { fuck } from "deepkit-openapi";
-
-console.log({ fuck });
+import { OpenAPIModule } from "deepkit-openapi";
 
 const bookStoreCrud = createCrudRoutes([Author, Book]);
 
@@ -44,7 +42,7 @@ new App({
         Have fun
       `,
     }).filter((filter) => filter.forModules(bookStoreCrud)),
-
+    new OpenAPIModule(),
     new FrameworkModule({
       publicDir: "public",
       httpLog: true,

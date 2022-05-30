@@ -1,5 +1,5 @@
 {
-  "name": "deepkit-openapi",
+  "name": "deepkit-openapi-core",
   "private": true,
   "version": "0.0.1",
   "description": "",
@@ -13,18 +13,16 @@
     }
   },
   "scripts": {
+    "test": "nodemon dist/cjs/test/index.js"
   },
   "devDependencies": {
-    "@deepkit/framework": "^1.0.1-alpha.71",
-    "@deepkit/http": "^1.0.1-alpha.71",
     "@deepkit/type": "^1.0.1-alpha.71",
-    "@deepkit/app": "^1.0.1-alpha.71"
+    "@deepkit/http": "^1.0.1-alpha.71",
+    "nodemon": "^2.0.16"
   },
   "peerDependencies": {
-    "@deepkit/framework": "^1.0.1-alpha.71",
-    "@deepkit/http": "^1.0.1-alpha.71",
     "@deepkit/type": "^1.0.1-alpha.71",
-    "@deepkit/app": "^1.0.1-alpha.71"
+    "@deepkit/http": "^1.0.1-alpha.71"
   },
   "keywords": [],
   "author": "",
