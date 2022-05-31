@@ -3,10 +3,10 @@ import { } from '@deepkit/type';
 
 export class OpenAPIDocument {
   constructor(
-    protected routes: RouteConfig,
+    protected routes: RouteConfig[],
   ) {}
 
   getDocument() {
-
+    return {};
   }
 }

@@ -22,5 +22,8 @@
   "includes": [
     "*.ts",
     "*.tsx"
+  ],
+  "references": [
+    { "path": "../deepkit-openapi-core" }
   ]
 }

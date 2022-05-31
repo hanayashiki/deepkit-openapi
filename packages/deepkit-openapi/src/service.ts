@@ -1,4 +1,5 @@
 import { HttpRouteFilter, HttpRouterFilterResolver } from '@deepkit/http';
+import { OpenAPIDocument } from 'deepkit-openapi-core';
 
 export class OpenAPIService {
   constructor(
@@ -8,7 +9,7 @@ export class OpenAPIService {
 
   getDocument() {
     const routes = this.filterResolver.resolve(this.routerFilter.model);
-    console.log(routes);
+    const openApiDocument = new OpenAPIDocument(routes);
     return {};
   }
 }

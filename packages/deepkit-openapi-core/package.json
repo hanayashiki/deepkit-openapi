@@ -18,11 +18,17 @@
   "devDependencies": {
     "@deepkit/type": "^1.0.1-alpha.71",
     "@deepkit/http": "^1.0.1-alpha.71",
-    "nodemon": "^2.0.16"
+    "@deepkit/core": "1.0.1-alpha.65",
+    "nodemon": "^2.0.16",
+    "yaml": "2.1.1"
   },
   "peerDependencies": {
     "@deepkit/type": "^1.0.1-alpha.71",
-    "@deepkit/http": "^1.0.1-alpha.71"
+    "@deepkit/http": "^1.0.1-alpha.71",
+    "@deepkit/core": "1.0.1-alpha.65"
+  },
+  "dependencies": {
+    "camelcase": "6.3.0"
   },
   "keywords": [],
   "author": "",
