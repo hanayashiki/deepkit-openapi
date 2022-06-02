@@ -8,6 +8,7 @@ export type SimpleType = string | number | boolean | null | bigint;
 export type Schema = {
   __type: "schema";
   __registryKey?: string;
+  __isComponent?: boolean;
   __isUndefined?: boolean;
   type?: string;
   not?: Schema;
@@ -50,6 +51,22 @@ export type Operation = {
   operationId?: string;
   deprecated?: boolean;
   parameters?: Parameter[];
+  requestBody?: RequestBody;
+};
+
+export type RequestMediaTypeName =
+  | "application/x-www-form-urlencoded"
+  | "multipart/form-data"
+  | "application/json";
+
+export type RequestBody = {
+  content: Record<RequestMediaTypeName, MediaType>;
+  required?: boolean;
+};
+
+export type MediaType = {
+  schema?: Schema;
+  example?: any;
 };
 
 export type Path = {

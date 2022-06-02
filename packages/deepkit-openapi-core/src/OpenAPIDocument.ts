@@ -8,13 +8,9 @@ import {
 } from "./errors";
 import { ParametersResolver } from "./ParametersResolver";
 import { SchemaRegistry } from "./SchemaRegistry";
-import {
-  HttpMethod,
-  OpenAPI,
-  Operation,
-  Tag,
-} from "./types";
+import { HttpMethod, OpenAPI, Operation, Tag } from "./types";
 import cloneDeepWith from "lodash.clonedeepwith";
+import { resolveOpenApiPath } from "./utils";
 
 export class OpenAPIDocument {
   schemaRegistry = new SchemaRegistry();
@@ -73,11 +69,20 @@ export class OpenAPIDocument {
     };
 
     for (const operation of this.operations) {
-      if (!openapi.paths[operation.__path]) {
-        openapi.paths[operation.__path] = {};
+      const openApiPath = resolveOpenApiPath(operation.__path);
+
+      if (!openapi.paths[openApiPath]) {
+        openapi.paths[openApiPath] = {};
       }
-      openapi.paths[operation.__path][operation.__method as HttpMethod] =
-        operation;
+      openapi.paths[openApiPath][operation.__method as HttpMethod] = operation;
+    }
+
+    for (const [key, schema] of this.schemaRegistry.store) {
+      openapi.components.schemas = openapi.components.schemas ?? {};
+      openapi.components.schemas[key] = {
+        ...schema.schema,
+        __isComponent: true,
+      };
     }
 
     return openapi;
@@ -86,6 +91,12 @@ export class OpenAPIDocument {
   serializeDocument(): OpenAPI {
     return cloneDeepWith(this.getDocument(), (c) => {
       if (typeof c === "object") {
+        if (c.__type === "schema" && c.__registryKey && !c.__isComponent) {
+          return {
+            $ref: `#/components/schemas/${c.__registryKey}`,
+          };
+        }
+
         for (const key of Object.keys(c)) {
           // Remove internal keys;
           if (key.startsWith("__")) delete c[key];
@@ -111,7 +122,11 @@ export class OpenAPIDocument {
         __method: method.toLowerCase(),
         tags: [tag.name],
         operationId: camelcase([method, tag.name, route.action.methodName]),
-        parameters: parametersResolver.parameters,
+        parameters:
+          parametersResolver.parameters.length > 0
+            ? parametersResolver.parameters
+            : undefined,
+        requestBody: parametersResolver.requestBody,
       };
 
       if (

@@ -21,6 +21,21 @@ router.get('/user/:id', async (id: number, database: Database) => {
 
 2. Parameter default values cannot depend on other parameters.
 
+3. Parameter resolver
+
+```ts
+@http.resolveParameter(User, UserResolver)
+class MyWebsite {
+    // Does not know user is derived from path parameter `id: number`
+    @http.GET(':id')
+    getUser(user: User) {
+        return 'Hello ' + user.username;
+    }
+}
+```
+
+4. Binary fields: `Uint8Array` etc. are not supported.
+
 # References
 
 [Deepkit Framework](https://deepkit.io/documentation/framework)

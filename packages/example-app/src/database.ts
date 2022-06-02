@@ -7,7 +7,6 @@ import { Config } from './config';
 export class User {
     id: number & PrimaryKey & AutoIncrement = 0;
     created: Date = new Date;
-    image?: Uint8Array;
 
     constructor(
         public username: string & MinLength<3> & Unique

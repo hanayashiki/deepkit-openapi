@@ -1,4 +1,4 @@
-import { typeOf, MinLength } from "@deepkit/type";
+import { typeOf, MinLength, TypedArray, reflect } from "@deepkit/type";
 import { unwrapTypeSchema } from "../src/TypeSchemaResolver";
 import { stringify } from "yaml";
 import { SchemaRegistry } from "../src/SchemaRegistry";

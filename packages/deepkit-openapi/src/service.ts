@@ -10,6 +10,8 @@ export class OpenAPIService {
   serialize() {
     const routes = this.filterResolver.resolve(this.routerFilter.model);
     const openApiDocument = new OpenAPIDocument(routes);
-    return openApiDocument.serializeDocument();
+    const result = openApiDocument.serializeDocument();
+    console.log('errors', openApiDocument.errors);
+    return result;
   }
 }

@@ -1,5 +1,7 @@
 import {
   http,
+  HttpBody,
+  HttpBodyValidation,
   HttpQueries,
   HttpQuery,
   HttpResponse,
@@ -10,8 +12,10 @@ import { OpenAPIService } from "deepkit-openapi";
 import { stringify } from "yaml";
 import { SQLiteDatabase, User } from "../database";
 
-class AddUserDto extends User {
-  imageUpload?: UploadedFile;
+class AddUserDto extends User {}
+
+class UploadedFiles {
+  files!: UploadedFile | UploadedFile[];
 }
 
 @http.controller()
@@ -22,9 +26,13 @@ export class MainController {
     protected openApi: OpenAPIService,
   ) {}
 
-  @http.GET("/openapi")
-  async getOpenApi() {
-    return this.openApi.serialize();
+  @http.GET("/openapi.json")
+  getOpenApi(response: HttpResponse): string {
+    const s = JSON.stringify(this.openApi.serialize(), undefined, 2);
+    response.setHeader("content-type", "application.json");
+    response.end(s);
+
+    return s;
   }
 
   @http.GET("/openapi.yaml")
@@ -76,26 +84,15 @@ export class MainController {
   //   return response.end(user.image);
   // }
 
-  // @http.POST("/add").description("Adds a new user")
-  // async add(body: HttpBodyValidation<AddUserDto>) {
-  //   if (!body.valid())
-  //     return <UserList error={body.error.getErrorMessageForPath("username")} />;
+  @http.POST("/add").description("Adds a new user")
+  async add(body: HttpBodyValidation<AddUserDto>) {
+    return body;
+  }
 
-  //   const user = new User(body.value.username);
-  //   if (body.value.imageUpload) {
-  //     //alternatively, move the file to `var/` and store its path into `user.image` (change it to a string)
-  //     user.image = await readFile(body.value.imageUpload.path);
-  //   }
-  //   this.logger.log("New user!", user);
-  //   await this.database.persist(user);
-
-  //   return Redirect.toRoute("startPage");
-  // }
-
-  // @http.GET("/path/:name")
-  // async urlParam(name: string) {
-  //   return name;
-  // }
+  @http.POST("/upload").description("Uploaded files")
+  async upload(body: HttpBody<UploadedFiles>) {
+    return body;
+  }
 
   @http.GET("/query")
   async queryParam(
