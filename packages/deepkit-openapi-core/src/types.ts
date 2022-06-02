@@ -37,10 +37,24 @@ export const StringSchema: Schema = { __type: "schema", type: "string" };
 
 export const BooleanSchema: Schema = { __type: "schema", type: "boolean" };
 
+export type RequestMediaTypeName =
+  | "application/x-www-form-urlencoded"
+  | "multipart/form-data"
+  | "application/json";
+
 export type Tag = {
   __controller: ClassType;
   name: string;
 };
+
+export type OpenAPIResponse = {
+  description: string,
+  content: {
+    "application/json"?: MediaType;
+  },
+};
+
+export type Responses = Record<string, OpenAPIResponse>;
 
 export type Operation = {
   __path: string;
@@ -52,12 +66,8 @@ export type Operation = {
   deprecated?: boolean;
   parameters?: Parameter[];
   requestBody?: RequestBody;
+  responses?: Responses;
 };
-
-export type RequestMediaTypeName =
-  | "application/x-www-form-urlencoded"
-  | "multipart/form-data"
-  | "application/json";
 
 export type RequestBody = {
   content: Record<RequestMediaTypeName, MediaType>;

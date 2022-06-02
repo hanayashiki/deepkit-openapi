@@ -8,6 +8,24 @@ npm run bootstrap
 npm run link
 ```
 
+# Backlogs
+
+## Functional
+
+1. Simple type casting problems
+   1. string, Date
+   2. float, string ?
+2. Handle serializer options
+   1. Renaming
+   2. Exclusion
+   3. Groups
+3. 
+
+## Structural
+
+1. Unit tests
+2. CI
+
 # Limitations
 
 1. Functional routers not supported.
@@ -34,7 +52,9 @@ class MyWebsite {
 }
 ```
 
-4. Binary fields: `Uint8Array` etc. are not supported.
+4. Binary fields: `Uint8Array` etc. are not documented.
+
+5. Content type other than `application/json` are not documentated
 
 # References
 

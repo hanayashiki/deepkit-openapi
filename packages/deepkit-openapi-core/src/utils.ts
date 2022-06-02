@@ -1,3 +1,5 @@
 export const resolveOpenApiPath = (deepkitPath: string) => {
-  return deepkitPath.replace(/:(\w+)/g, (_, name) => `\{${name}\}`)
+  let s = deepkitPath.replace(/:(\w+)/g, (_, name) => `\{${name}\}`)
+  s = !s.startsWith('/') ? '/' + s : s;
+  return s;
 };

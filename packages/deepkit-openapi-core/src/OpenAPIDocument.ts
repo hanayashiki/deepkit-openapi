@@ -8,9 +8,20 @@ import {
 } from "./errors";
 import { ParametersResolver } from "./ParametersResolver";
 import { SchemaRegistry } from "./SchemaRegistry";
-import { HttpMethod, OpenAPI, Operation, Tag } from "./types";
+import {
+  Schema,
+  HttpMethod,
+  OpenAPI,
+  OpenAPIResponse,
+  Operation,
+  ParsedRoute,
+  Tag,
+  Responses,
+} from "./types";
 import cloneDeepWith from "lodash.clonedeepwith";
 import { resolveOpenApiPath } from "./utils";
+import { resolveTypeSchema } from "./TypeSchemaResolver";
+import { ReflectionKind } from "@deepkit/type";
 
 export class OpenAPIDocument {
   schemaRegistry = new SchemaRegistry();
@@ -98,7 +109,7 @@ export class OpenAPIDocument {
         }
 
         for (const key of Object.keys(c)) {
-          // Remove internal keys;
+          // Remove internal keys.
           if (key.startsWith("__")) delete c[key];
         }
       }
@@ -117,6 +128,8 @@ export class OpenAPIDocument {
       ).resolve();
       this.errors.push(...parametersResolver.errors);
 
+      const responses = this.resolveResponses(route);
+
       const operation: Operation = {
         __path: `${route.baseUrl}${route.path}`,
         __method: method.toLowerCase(),
@@ -127,6 +140,7 @@ export class OpenAPIDocument {
             ? parametersResolver.parameters
             : undefined,
         requestBody: parametersResolver.requestBody,
+        responses,
       };
 
       if (
@@ -142,5 +156,58 @@ export class OpenAPIDocument {
 
       this.operations.push(operation);
     }
+  }
+
+  resolveResponses(route: RouteConfig) {
+    const responses: Responses = {};
+
+    // First get the response type of the method
+    if (route.returnType) {
+      const schemaResult = resolveTypeSchema(
+        route.returnType.kind === ReflectionKind.promise
+          ? route.returnType.type
+          : route.returnType,
+        this.schemaRegistry,
+      );
+
+      this.errors.push(...schemaResult.errors);
+
+      responses[200] = {
+        description: "",
+        content: {
+          "application/json": {
+            schema: schemaResult.result,
+          },
+        },
+      };
+    }
+
+    // Annotated responses have higher priority
+    for (const response of route.responses) {
+      let schema: Schema | undefined;
+      if (response.type) {
+        const schemaResult = resolveTypeSchema(
+          response.type,
+          this.schemaRegistry,
+        );
+        schema = schemaResult.result;
+        this.errors.push(...schemaResult.errors);
+      }
+
+      if (!responses[response.statusCode]) {
+        responses[response.statusCode] = {
+          description: "",
+          content: { "application/json": schema ? { schema } : undefined },
+        };
+      }
+
+      responses[response.statusCode].description ||= response.description;
+      if (schema) {
+        responses[response.statusCode].content["application/json"]!.schema =
+          schema;
+      }
+    }
+
+    return responses;
   }
 }

@@ -43,15 +43,25 @@ export class ParametersResolver {
 
         this.errors.push(...schemaResult.errors);
 
-        for (const [key, property] of Object.entries(
+        for (const [name, property] of Object.entries(
           schemaResult.result.properties!,
         )) {
-          this.parameters.push({
-            in: "query",
-            name: key,
-            schema: property,
-            required: schemaResult.result.required?.includes(key),
-          });
+          if (!this.parameters.find((p) => p.name === name)) {
+            this.parameters.push({
+              in: "query",
+              name,
+              schema: property,
+              required: schemaResult.result.required?.includes(name),
+            });
+          } else {
+            this.errors.push(
+              new DeepKitTypeError(
+                `Parameter name ${JSON.stringify(
+                  name,
+                )} is repeated. Please consider renaming them. `,
+              ),
+            );
+          }
         }
       } else if (parameter.isPartOfPath()) {
         const schemaResult = resolveTypeSchema(type, this.schemeRegistry);
@@ -73,7 +83,7 @@ export class ParametersResolver {
             "HttpBody or HttpBodyValidation should be either class or object literal. ",
           );
         }
-        console.log(type);
+
         const bodySchema = resolveTypeSchema(type, this.schemeRegistry);
 
         this.errors.push(...bodySchema.errors);

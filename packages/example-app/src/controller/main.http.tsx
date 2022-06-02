@@ -14,8 +14,16 @@ import { SQLiteDatabase, User } from "../database";
 
 class AddUserDto extends User {}
 
+class UserNameOnly {
+  username: string = '';
+}
+
 class UploadedFiles {
   files!: UploadedFile | UploadedFile[];
+}
+
+class ExampleError extends Error {
+  code: number = 0;
 }
 
 @http.controller()
@@ -37,7 +45,7 @@ export class MainController {
 
   @http.GET("/openapi.yaml")
   getOpenApiYaml(response: HttpResponse): string {
-    const s = stringify(this.openApi.serialize());
+    const s = stringify(this.openApi.serialize(), { aliasDuplicateObjects: false });
     response.setHeader("content-type", "text/yaml");
     response.end(s);
 
@@ -123,8 +131,8 @@ export class MainController {
     return typeof q1.a;
   }
 
-  // @http.GET("/queriesWithString")
-  // async queriesWithString(queries: HttpQueries<string>) {
-  //   return;
-  // }
+  @http.GET('/withResponse').response(200, 'Only name is showed', UserNameOnly)
+  async withResponse() {
+    return new User('With Response');
+  }
 }
