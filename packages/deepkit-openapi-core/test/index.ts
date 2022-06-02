@@ -2,6 +2,7 @@ import { typeOf, MinLength } from "@deepkit/type";
 import { unwrapTypeSchema } from "../src/TypeSchemaResolver";
 import { stringify } from "yaml";
 import { SchemaRegistry } from "../src/SchemaRegistry";
+import { HttpQueries } from "@deepkit/http";
 interface I {
   a: number;
 }
@@ -28,15 +29,15 @@ enum Enum {
   c = "c",
 }
 
-console.log(typeOf<Enum>());
+// console.log(typeOf<Enum>());
 
 type Union = "a" | "b" | "c";
 
 type UnionAlias = Union;
 
-console.log(typeOf<UnionAlias>());
+// console.log(typeOf<UnionAlias>());
 
-console.log(typeOf<"a" | "b" | "c">());
+// console.log(typeOf<"a" | "b" | "c">());
 
 type Paginated<T> = {
   items: T[];
@@ -46,3 +47,5 @@ type PaginatedItems = {
   items: (string & MinLength<5>)[];
   fuck: () => string;
 }
+
+console.log(typeOf<HttpQueries<{ number: 1 }>>());

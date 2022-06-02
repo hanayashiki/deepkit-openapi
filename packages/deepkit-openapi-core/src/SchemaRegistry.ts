@@ -10,7 +10,7 @@ import {
   TypeObjectLiteral,
 } from "@deepkit/type";
 import camelcase from "camelcase";
-import { DeepKitOpenApiNameConflict } from "./errors";
+import { DeepKitOpenApiSchemaNameConflict } from "./errors";
 import { Schema } from "./types";
 
 export interface SchemeEntry {
@@ -33,6 +33,12 @@ export class SchemaRegistry {
       nameAnnotation?.options[0].literal === "name"
     ) {
       return (nameAnnotation?.options[1] as TypeLiteral).literal as string;
+    }
+
+    if (metaAnnotation.getForName(t, "httpQueries")) {
+      return this.getClassOrObjectLiteralKey(
+        (t as TypeClass | TypeObjectLiteral).typeArguments![0] as TypeClass | TypeObjectLiteral,
+      );
     }
 
     const rootName =
@@ -70,7 +76,7 @@ export class SchemaRegistry {
     const currentEntry = this.store.get(name);
 
     if (currentEntry && !isSameType(type, currentEntry?.type)) {
-      throw new DeepKitOpenApiNameConflict(type, currentEntry.type, name);
+      throw new DeepKitOpenApiSchemaNameConflict(type, currentEntry.type, name);
     }
 
     this.store.set(name, { type, schema, name });

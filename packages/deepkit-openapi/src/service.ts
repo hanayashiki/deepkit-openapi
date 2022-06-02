@@ -7,9 +7,9 @@ export class OpenAPIService {
     protected filterResolver: HttpRouterFilterResolver,
   ) {}
 
-  getDocument() {
+  serialize() {
     const routes = this.filterResolver.resolve(this.routerFilter.model);
     const openApiDocument = new OpenAPIDocument(routes);
-    return {};
+    return openApiDocument.serializeDocument();
   }
 }

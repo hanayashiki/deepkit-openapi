@@ -1,17 +1,14 @@
 import {
-  HtmlResponse,
   http,
-  HttpBodyValidation,
+  HttpQueries,
   HttpQuery,
   HttpResponse,
-  Redirect,
   UploadedFile,
 } from "@deepkit/http";
 import { LoggerInterface } from "@deepkit/logger";
 import { OpenAPIService } from "deepkit-openapi";
-import { readFile } from "fs/promises";
+import { stringify } from "yaml";
 import { SQLiteDatabase, User } from "../database";
-import { UserList } from "../views/user-list";
 
 class AddUserDto extends User {
   imageUpload?: UploadedFile;
@@ -27,67 +24,110 @@ export class MainController {
 
   @http.GET("/openapi")
   async getOpenApi() {
-    return this.openApi.getDocument();
+    return this.openApi.serialize();
   }
 
-  @http.GET("/").name("startPage").description("List all users")
-  async startPage() {
-    return <UserList />;
+  @http.GET("/openapi.yaml")
+  getOpenApiYaml(response: HttpResponse): string {
+    const s = stringify(this.openApi.serialize());
+    response.setHeader("content-type", "text/yaml");
+    response.end(s);
+
+    return s;
   }
 
-  @http.GET("/api/users")
-  async users(): Promise<User[]> {
-    return await this.database.query(User).find();
-  }
+  // @http.GET("/").name("startPage").description("List all users")
+  // async startPage() {
+  //   return <UserList />;
+  // }
+
+  // @http.GET("/api/users")
+  // async users(): Promise<User[]> {
+  //   return await this.database.query(User).find();
+  // }
 
   @http.GET("/api/user/:id")
   async user(id: number): Promise<User> {
     return await this.database.query(User).filter({ id }).findOne();
   }
 
-  @http.DELETE("/api/user/:id")
-  async deleteUser(id: number) {
-    const res = await this.database.query(User).filter({ id }).deleteOne();
-    return res.modified === 1;
+  @http.GET("/api/user/sync/:id")
+  userSync(id: number): User {
+    return new User("alice");
   }
 
-  @http.GET("/benchmark")
-  benchmark() {
-    return "hi";
-  }
+  // @http.DELETE("/api/user/:id")
+  // async deleteUser(id: number) {
+  //   const res = await this.database.query(User).filter({ id }).deleteOne();
+  //   return res.modified === 1;
+  // }
 
-  @http.GET("/image/:id")
-  async userImage(id: number, response: HttpResponse) {
-    const user = await this.database.query(User).filter({ id }).findOne();
-    if (!user.image) {
-      return new HtmlResponse("Not found", 404);
-    }
-    return response.end(user.image);
-  }
+  // @http.GET("/benchmark")
+  // benchmark() {
+  //   return "hi";
+  // }
 
-  @http.POST("/add").description("Adds a new user")
-  async add(body: HttpBodyValidation<AddUserDto>) {
-    if (!body.valid())
-      return <UserList error={body.error.getErrorMessageForPath("username")} />;
+  // @http.GET("/image/:id")
+  // async userImage(id: number, response: HttpResponse) {
+  //   const user = await this.database.query(User).filter({ id }).findOne();
+  //   if (!user.image) {
+  //     return new HtmlResponse("Not found", 404);
+  //   }
+  //   return response.end(user.image);
+  // }
 
-    const user = new User(body.value.username);
-    if (body.value.imageUpload) {
-      //alternatively, move the file to `var/` and store its path into `user.image` (change it to a string)
-      user.image = await readFile(body.value.imageUpload.path);
-    }
-    this.logger.log("New user!", user);
-    await this.database.persist(user);
+  // @http.POST("/add").description("Adds a new user")
+  // async add(body: HttpBodyValidation<AddUserDto>) {
+  //   if (!body.valid())
+  //     return <UserList error={body.error.getErrorMessageForPath("username")} />;
 
-    return Redirect.toRoute("startPage");
-  }
+  //   const user = new User(body.value.username);
+  //   if (body.value.imageUpload) {
+  //     //alternatively, move the file to `var/` and store its path into `user.image` (change it to a string)
+  //     user.image = await readFile(body.value.imageUpload.path);
+  //   }
+  //   this.logger.log("New user!", user);
+  //   await this.database.persist(user);
 
-  @http.GET("/path/:name")
-  async urlParam(name: string) {
-    return name;
-  }
+  //   return Redirect.toRoute("startPage");
+  // }
+
+  // @http.GET("/path/:name")
+  // async urlParam(name: string) {
+  //   return name;
+  // }
 
   @http.GET("/query")
-  async queryParam(peter: HttpQuery<string>) {
+  async queryParam(
+    shit: HttpQuery<string>,
+    peter: HttpQuery<string> = "peter",
+  ) {
     return peter;
   }
+
+  @http.GET("/omit")
+  async omit(shit?: HttpQuery<number>) {
+    return shit;
+  }
+
+  @http.GET("/queryWithQueries")
+  async queryWithQueries(
+    shit: HttpQuery<number>,
+    queries: HttpQueries<{ limit: number; offset: number }>,
+  ) {
+    return shit;
+  }
+
+  @http.GET("/twoQueries")
+  async twoQueries(
+    q1: HttpQueries<{ a: number; b: string }>,
+    q2: HttpQueries<{ a: string }>,
+  ) {
+    return typeof q1.a;
+  }
+
+  // @http.GET("/queriesWithString")
+  // async queriesWithString(queries: HttpQueries<string>) {
+  //   return;
+  // }
 }
