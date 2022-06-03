@@ -1,4 +1,4 @@
-import { createModule, findParentPath } from "@deepkit/app";
+import { createModule } from "@deepkit/app";
 import {
   HttpRequest,
   HttpResponse,

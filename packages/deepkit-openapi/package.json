@@ -12,28 +12,38 @@
       "default": "./dist/esm/index.js"
     }
   },
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "deepkit-openapi-core": "^0.0.1",
-    "yaml": "^2.1.1",
-    "swagger-ui-dist": "^4.11.1"
+    "swagger-ui-dist": "^4.11.1",
+    "yaml": "^2.1.1"
   },
   "devDependencies": {
+    "@deepkit/app": "^1.0.1-alpha.71",
     "@deepkit/core": "1.0.1-alpha.65",
+    "@deepkit/event": "^1.0.1-alpha.71",
     "@deepkit/framework": "^1.0.1-alpha.71",
     "@deepkit/http": "^1.0.1-alpha.71",
     "@deepkit/type": "^1.0.1-alpha.71",
-    "@deepkit/app": "^1.0.1-alpha.71",
-    "@types/swagger-ui-dist": "^3.30.1",
-    "@types/send": "^0.17.1"
+    "@deepkit/injector": "^1.0.1-alpha.71",
+    "@deepkit/logger": "^1.0.1-alpha.65",
+    "@deepkit/stopwatch": "^1.0.1-alpha.71",
+    "@deepkit/template": "^1.0.1-alpha.71",
+    "@deepkit/workflow": "^1.0.1-alpha.71",
+    "@types/send": "^0.17.1",
+    "@types/swagger-ui-dist": "^3.30.1"
   },
   "peerDependencies": {
+    "@deepkit/app": "^1.0.1-alpha.71",
     "@deepkit/core": "1.0.1-alpha.65",
     "@deepkit/framework": "^1.0.1-alpha.71",
     "@deepkit/http": "^1.0.1-alpha.71",
     "@deepkit/type": "^1.0.1-alpha.71",
-    "@deepkit/app": "^1.0.1-alpha.71",
+    "@deepkit/injector": "^1.0.1-alpha.71",
+    "@deepkit/logger": "^1.0.1-alpha.65",
+    "@deepkit/stopwatch": "^1.0.1-alpha.71",
+    "@deepkit/template": "^1.0.1-alpha.71",
+    "@deepkit/workflow": "^1.0.1-alpha.71",
     "send": "^0.18.0"
   },
   "keywords": [],

@@ -4,13 +4,14 @@ import {
   HttpBodyValidation,
   HttpQueries,
   HttpQuery,
-  HttpResponse,
   UploadedFile,
 } from "@deepkit/http";
 import { LoggerInterface } from "@deepkit/logger";
 import { OpenAPIService } from "deepkit-openapi";
-import { stringify } from "yaml";
-import { SQLiteDatabase, User } from "../database";
+
+class User {
+  name: string = '';
+}
 
 class AddUserDto extends User {}
 
@@ -30,7 +31,6 @@ class ExampleError extends Error {
 export class MainController {
   constructor(
     protected logger: LoggerInterface,
-    protected database: SQLiteDatabase,
     protected openApi: OpenAPIService,
   ) {}
 
@@ -46,12 +46,12 @@ export class MainController {
 
   @http.GET("/api/user/:id")
   async user(id: number): Promise<User> {
-    return await this.database.query(User).filter({ id }).findOne();
+    return new User();
   }
 
   @http.GET("/api/user/sync/:id")
   userSync(id: number): User {
-    return new User("alice");
+    return new User();
   }
 
   // @http.DELETE("/api/user/:id")
@@ -115,6 +115,6 @@ export class MainController {
 
   @http.GET('/withResponse').response(200, 'Only name is showed', UserNameOnly)
   async withResponse() {
-    return new User('With Response');
+    return new User();
   }
 }

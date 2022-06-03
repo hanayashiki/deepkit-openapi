@@ -1,48 +1,17 @@
 #!/usr/bin/env ts-node-script
 import { createCrudRoutes, FrameworkModule } from "@deepkit/framework";
-import { Author, Book, SQLiteDatabase, User } from "./src/database";
 import { MainController } from "./src/controller/main.http";
-import { UsersCommand } from "./src/controller/users.cli";
 import { Config } from "./src/config";
 import { JSONTransport, Logger } from "@deepkit/logger";
 import { App } from "@deepkit/app";
-import { RpcController } from "./src/controller/rpc.controller";
-import { ApiConsoleModule } from "@deepkit/api-console-module";
 import { OpenAPIModule } from "deepkit-openapi";
-
-const bookStoreCrud = createCrudRoutes([Author, Book]);
 
 new App({
   config: Config,
-  providers: [SQLiteDatabase, MainController],
-  controllers: [MainController, UsersCommand, RpcController],
-  listeners: [
-    //todo: make that possible again
-    // createListener(onServerMainBootstrapDone, (event, logger, environment) => {
-    //     logger.log(`Environment <yellow>${environment}</yellow>`);
-    // }, Logger, config.token('environment')),
-  ],
+  providers: [MainController],
+  controllers: [MainController],
   imports: [
-    // createCrudRoutes([User], {
-    //   identifier: "username",
-    //   identifierChangeable: true,
-    // }),
-    // bookStoreCrud,
-
-    // new ApiConsoleModule({ path: "/api" }).filter((filter) =>
-    //   filter.excludeModules(bookStoreCrud),
-    // ),
-    // new ApiConsoleModule({
-    //   path: "/api/bookstore",
-    //   markdown: `
-    //     # Bookstore
-
-    //     Welcome to my little bookstore API. Feel free to manage the content.
-
-    //     Have fun
-    //   `,
-    // }).filter((filter) => filter.forModules(bookStoreCrud)),
-    new OpenAPIModule(),
+    new OpenAPIModule({ prefix: '/openapi/' }),
     new FrameworkModule({
       publicDir: "public",
       httpLog: true,
