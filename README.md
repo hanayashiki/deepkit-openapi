@@ -19,7 +19,7 @@ npm run link
    1. Renaming
    2. Exclusion
    3. Groups
-3. 
+3. Swagger UI Hosting
 
 ## Structural
 

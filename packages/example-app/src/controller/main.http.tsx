@@ -34,24 +34,6 @@ export class MainController {
     protected openApi: OpenAPIService,
   ) {}
 
-  @http.GET("/openapi.json")
-  getOpenApi(response: HttpResponse): string {
-    const s = JSON.stringify(this.openApi.serialize(), undefined, 2);
-    response.setHeader("content-type", "application.json");
-    response.end(s);
-
-    return s;
-  }
-
-  @http.GET("/openapi.yaml")
-  getOpenApiYaml(response: HttpResponse): string {
-    const s = stringify(this.openApi.serialize(), { aliasDuplicateObjects: false });
-    response.setHeader("content-type", "text/yaml");
-    response.end(s);
-
-    return s;
-  }
-
   // @http.GET("/").name("startPage").description("List all users")
   // async startPage() {
   //   return <UserList />;
