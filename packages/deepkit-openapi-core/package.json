@@ -13,20 +13,24 @@
     }
   },
   "scripts": {
-    "test": "nodemon dist/cjs/test/index.js"
+    "play": "nodemon dist/cjs/scripts/index.js",
+    "test": "jest"
   },
   "devDependencies": {
-    "@deepkit/type": "^1.0.1-alpha.71",
-    "@deepkit/http": "^1.0.1-alpha.71",
     "@deepkit/core": "1.0.1-alpha.65",
+    "@deepkit/http": "^1.0.1-alpha.71",
+    "@deepkit/type": "^1.0.1-alpha.71",
+    "@types/lodash.clonedeepwith": "4.5.7",
     "nodemon": "^2.0.16",
     "yaml": "2.1.1",
-    "@types/lodash.clonedeepwith": "4.5.7"
+    "@types/jest": "^28.1.0",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.4"
   },
   "peerDependencies": {
-    "@deepkit/type": "^1.0.1-alpha.71",
+    "@deepkit/core": "1.0.1-alpha.65",
     "@deepkit/http": "^1.0.1-alpha.71",
-    "@deepkit/core": "1.0.1-alpha.65"
+    "@deepkit/type": "^1.0.1-alpha.71"
   },
   "dependencies": {
     "camelcase": "6.3.0",

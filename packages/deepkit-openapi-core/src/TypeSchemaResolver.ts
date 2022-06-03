@@ -48,7 +48,7 @@ export class TypeSchemaResolver {
         this.result.type = "boolean";
         return;
       case ReflectionKind.bigint:
-        this.result.type = "bigint";
+        this.result.type = "number";
         return;
       case ReflectionKind.null:
         this.result.type = "null";
@@ -92,6 +92,11 @@ export class TypeSchemaResolver {
 
         this.result.items = itemsResult.result;
         this.errors.push(...itemsResult.errors);
+        return;
+      case ReflectionKind.enum:
+        this.resolveEnum();
+        return;
+      case ReflectionKind.union:
         return;
       default:
         this.errors.push(new TypeNotSupported(this.t));
@@ -155,7 +160,36 @@ export class TypeSchemaResolver {
       this.result.required = required;
     }
 
-    const registryKey = this.schemaRegisty.getClassOrObjectLiteralKey(this.t);
+    const registryKey = this.schemaRegisty.getSchemaKey(this.t);
+    if (registryKey) {
+      this.schemaRegisty.registerSchema(registryKey, this.t, this.result);
+    }
+  }
+
+  resolveEnum() {
+    if (this.t.kind !== ReflectionKind.enum) {
+      return;
+    }
+
+    let types = new Set<string>();
+
+    for (const value of this.t.values) {
+      const currentType = mapSimpleLiteralToType(value);
+
+      if (currentType === undefined) {
+        this.errors.push(
+          new TypeNotSupported(this.t, `Enum with unsupported members. `),
+        );
+        continue;
+      }
+
+      types.add(currentType);
+    }
+
+    this.result.type = types.size > 1 ? undefined : [...types.values()][0];
+    this.result.enum = this.t.values as any;
+
+    const registryKey = this.schemaRegisty.getSchemaKey(this.t);
     if (registryKey) {
       this.schemaRegisty.registerSchema(registryKey, this.t, this.result);
     }

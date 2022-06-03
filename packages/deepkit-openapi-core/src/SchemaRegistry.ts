@@ -6,6 +6,7 @@ import {
   stringifyType,
   Type,
   TypeClass,
+  TypeEnum,
   TypeLiteral,
   TypeObjectLiteral,
 } from "@deepkit/type";
@@ -19,10 +20,12 @@ export interface SchemeEntry {
   type: Type;
 }
 
+export type RegistableSchema = TypeClass | TypeObjectLiteral | TypeEnum;
+
 export class SchemaRegistry {
   store: Map<string, SchemeEntry> = new Map();
 
-  getClassOrObjectLiteralKey(t: TypeClass | TypeObjectLiteral): string {
+  getSchemaKey(t: RegistableSchema): string {
     const nameAnnotation = metaAnnotation
       .getAnnotations(t)
       .find((t) => t.name === "openapi");
@@ -36,8 +39,8 @@ export class SchemaRegistry {
     }
 
     if (metaAnnotation.getForName(t, "httpQueries")) {
-      return this.getClassOrObjectLiteralKey(
-        (t as TypeClass | TypeObjectLiteral).typeArguments![0] as TypeClass | TypeObjectLiteral,
+      return this.getSchemaKey(
+        (t as RegistableSchema).typeArguments![0] as RegistableSchema,
       );
     }
 
@@ -59,9 +62,10 @@ export class SchemaRegistry {
       return stringifyType(t);
     } else if (
       t.kind === ReflectionKind.class ||
-      t.kind === ReflectionKind.objectLiteral
+      t.kind === ReflectionKind.objectLiteral ||
+      t.kind === ReflectionKind.enum
     ) {
-      return this.getClassOrObjectLiteralKey(t);
+      return this.getSchemaKey(t);
     } else if (t.kind === ReflectionKind.array) {
       return camelcase([this.getTypeKey(t.type), "Array"], {
         pascalCase: false,
