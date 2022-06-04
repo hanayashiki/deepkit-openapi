@@ -9,6 +9,7 @@ import {
   TypeEnum,
   TypeLiteral,
   TypeObjectLiteral,
+  TypeUnion,
 } from "@deepkit/type";
 import camelcase from "camelcase";
 import { DeepKitOpenApiSchemaNameConflict } from "./errors";
@@ -20,7 +21,7 @@ export interface SchemeEntry {
   type: Type;
 }
 
-export type RegistableSchema = TypeClass | TypeObjectLiteral | TypeEnum;
+export type RegistableSchema = TypeClass | TypeObjectLiteral | TypeEnum | TypeUnion;
 
 export class SchemaRegistry {
   store: Map<string, SchemeEntry> = new Map();
@@ -38,6 +39,7 @@ export class SchemaRegistry {
       return (nameAnnotation?.options[1] as TypeLiteral).literal as string;
     }
 
+    // HttpQueries<T>
     if (metaAnnotation.getForName(t, "httpQueries")) {
       return this.getSchemaKey(
         (t as RegistableSchema).typeArguments![0] as RegistableSchema,
@@ -58,12 +60,20 @@ export class SchemaRegistry {
   }
 
   getTypeKey(t: Type): string {
-    if (isPrimitive(t)) {
+    if (
+      t.kind === ReflectionKind.string ||
+      t.kind === ReflectionKind.number ||
+      t.kind === ReflectionKind.bigint ||
+      t.kind === ReflectionKind.boolean ||
+      t.kind === ReflectionKind.null ||
+      t.kind === ReflectionKind.undefined
+    ) {
       return stringifyType(t);
     } else if (
       t.kind === ReflectionKind.class ||
       t.kind === ReflectionKind.objectLiteral ||
-      t.kind === ReflectionKind.enum
+      t.kind === ReflectionKind.enum ||
+      t.kind === ReflectionKind.union
     ) {
       return this.getSchemaKey(t);
     } else if (t.kind === ReflectionKind.array) {

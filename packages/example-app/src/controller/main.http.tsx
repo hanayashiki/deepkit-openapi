@@ -9,7 +9,17 @@ import {
 import { LoggerInterface } from "@deepkit/logger";
 import { OpenAPIService } from "deepkit-openapi";
 
+enum Country {
+  china = 'cn',
+  japan = 'jp',
+  india = 'in',
+}
+
+type UserStatus = 'active' | 'inactive';
+
 class User {
+  country: Country = Country.india;
+  status: UserStatus = 'active';
   name: string = '';
 }
 
@@ -21,10 +31,6 @@ class UserNameOnly {
 
 class UploadedFiles {
   files!: UploadedFile | UploadedFile[];
-}
-
-class ExampleError extends Error {
-  code: number = 0;
 }
 
 @http.controller()

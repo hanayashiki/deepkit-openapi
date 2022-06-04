@@ -11,6 +11,8 @@ import {
   ReflectionKind,
   Type,
   TypeClass,
+  TypeEnum,
+  TypeLiteral,
   TypeObjectLiteral,
   typeOf,
   validationAnnotation,
@@ -97,6 +99,7 @@ export class TypeSchemaResolver {
         this.resolveEnum();
         return;
       case ReflectionKind.union:
+        this.resolveUnion();
         return;
       default:
         this.errors.push(new TypeNotSupported(this.t));
@@ -192,6 +195,44 @@ export class TypeSchemaResolver {
     const registryKey = this.schemaRegisty.getSchemaKey(this.t);
     if (registryKey) {
       this.schemaRegisty.registerSchema(registryKey, this.t, this.result);
+    }
+  }
+
+  resolveUnion() {
+    if (this.t.kind !== ReflectionKind.union) {
+      return;
+    }
+
+    // Find out whether it is a union of literals. If so, treat it as an enum
+    if (
+      this.t.types.every(
+        (t): t is TypeLiteral =>
+          t.kind === ReflectionKind.literal &&
+          ["string", "number"].includes(mapSimpleLiteralToType(t.literal) as any),
+      )
+    ) {
+      const enumType: TypeEnum = {
+        ...this.t,
+        kind: ReflectionKind.enum,
+        enum: Object.fromEntries(
+          this.t.types.map((t) => [t.literal, t.literal as any]),
+        ),
+        values: this.t.types.map((t) => t.literal as any),
+        indexType: this.t,
+      };
+
+      const { result, errors } = resolveTypeSchema(enumType, this.schemaRegisty);
+      this.result = result;
+      this.errors.push(...errors);
+    } else {
+      this.result.type = undefined;
+      this.result.oneOf = [];
+
+      for (const t of this.t.types) {
+        const { result, errors } = resolveTypeSchema(t, this.schemaRegisty);
+        this.result.oneOf?.push(result);
+        this.errors.push(...errors);
+      }
     }
   }
 

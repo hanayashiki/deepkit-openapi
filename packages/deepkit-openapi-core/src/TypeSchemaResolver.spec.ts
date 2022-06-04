@@ -62,18 +62,58 @@ test("serialize enum", () => {
     __type: "schema",
     type: "string",
     enum: ["a", "b"],
-    __registryKey: "E2",
+    __registryKey: "E1",
   });
 
   enum E2 {
     a = 1,
-    b = 1,
+    b = 2,
   }
 
   expect(unwrapTypeSchema(typeOf<E2>())).toMatchObject({
     __type: "schema",
-    type: 'number',
+    type: "number",
     enum: [1, 2],
     __registryKey: "E2",
+  });
+});
+
+test("serialize union", () => {
+  type Union =
+    | {
+        type: "push";
+        branch: string;
+      }
+    | {
+        type: "commit";
+        diff: string[];
+      };
+
+  expect(unwrapTypeSchema(typeOf<Union>())).toMatchObject({
+    __type: "schema",
+    oneOf: [
+      {
+        __type: "schema",
+        type: "object",
+        properties: {
+          type: { __type: "schema", type: "string", enum: ["push"] },
+          branch: { __type: "schema", type: "string" },
+        },
+        required: ["type", "branch"],
+      },
+      {
+        __type: "schema",
+        type: "object",
+        properties: {
+          type: { __type: "schema", type: "string", enum: ["commit"] },
+          diff: {
+            __type: "schema",
+            type: "array",
+            items: { __type: "schema", type: "string" },
+          },
+        },
+        required: ["type", "diff"],
+      },
+    ],
   });
 });

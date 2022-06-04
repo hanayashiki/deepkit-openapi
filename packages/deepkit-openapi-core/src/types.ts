@@ -25,6 +25,7 @@ export type Schema = {
   required?: string[];
   items?: Schema;
   default?: any;
+  oneOf?: Schema[];
 
   $ref?: string;
 };
