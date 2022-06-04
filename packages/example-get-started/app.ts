@@ -1,24 +1,23 @@
-#!/usr/bin/env ts-node-script
 import { http, HttpBody, HttpError } from "@deepkit/http";
 
 import { FrameworkModule } from "@deepkit/framework";
 import { JSONTransport, Logger } from "@deepkit/logger";
 import { App } from "@deepkit/app";
 import { OpenAPIModule } from "deepkit-openapi";
-import { Email } from "@deepkit/type";
+import { Email, typeOf } from "@deepkit/type";
 
-type User = {
+interface User {
   id: number;
   name: string;
   email: string & Email;
   password: string;
 };
 
-type CreateUser = Omit<User, "id">;
+interface CreateUser extends Omit<User, "id"> {};
 
-type UpdateUser = Partial<User>;
+interface UpdateUser extends Partial<User> {};
 
-type ReadUser = Omit<User, "password">;
+interface ReadUser extends Omit<User, "password"> {};
 
 const db: User[] = [
   { id: 1, name: "Bob", email: "bob@gmail.com", password: "123" },

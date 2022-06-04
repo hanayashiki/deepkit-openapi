@@ -145,7 +145,7 @@ export class OpenAPIDocument {
 
       if (
         this.operations.find(
-          (p) => p.__path === operation.__path && p.__method === p.__method,
+          (p) => p.__path === operation.__path && p.__method === operation.__method,
         )
       ) {
         throw new DeepKitOpenApiOperationNameConflict(

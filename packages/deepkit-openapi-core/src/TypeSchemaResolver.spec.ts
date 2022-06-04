@@ -116,4 +116,13 @@ test("serialize union", () => {
       },
     ],
   });
+
+  type EnumLike = "red" | "black";
+
+  expect(unwrapTypeSchema(typeOf<EnumLike>())).toMatchObject({
+    __type: "schema",
+    type: "string",
+    enum: ["red", "black"],
+    __registryKey: "EnumLike",
+  });
 });

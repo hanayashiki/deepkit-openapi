@@ -1,6 +1,5 @@
 {
   "name": "deepkit-openapi",
-  "private": true,
   "version": "0.0.1",
   "description": "",
   "main": "./dist/cjs/index.js",
@@ -46,7 +45,24 @@
     "@deepkit/workflow": "^1.0.1-alpha.71",
     "send": "^0.18.0"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "typescript",
+    "deepkit",
+    "openapi",
+    "swagger",
+    "swagger-ui",
+    "javascript",
+    "openapi3",
+    "reflection",
+    "http",
+    "types",
+    "server",
+    "nodejs",
+    "node",
+    "generator",
+    "api"
+  ],
+  "repository": "https://github.com/hanayashiki/deepkit-openapi",
+  "author": "Chenyu Wang <wangchenyu2017@gmail.com>",
   "license": "MIT"
 }

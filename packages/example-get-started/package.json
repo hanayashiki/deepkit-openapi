@@ -1,0 +1,35 @@
+{
+  "name": "example-get-started",
+  "private": true,
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start": "ts-node app.ts server:start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@deepkit/app": "^1.0.1-alpha.71",
+    "@deepkit/broker": "^1.0.1-alpha.71",
+    "@deepkit/bson": "^1.0.1-alpha.71",
+    "@deepkit/core-rxjs": "^1.0.1-alpha.65",
+    "@deepkit/framework": "^1.0.1-alpha.71",
+    "@deepkit/http": "^1.0.1-alpha.71",
+    "@deepkit/logger": "^1.0.1-alpha.65",
+    "@deepkit/orm": "^1.0.1-alpha.71",
+    "@deepkit/rpc": "^1.0.1-alpha.71",
+    "@deepkit/rpc-tcp": "^1.0.1-alpha.71",
+    "@deepkit/sql": "^1.0.1-alpha.71",
+    "@deepkit/sqlite": "^1.0.1-alpha.71",
+    "@deepkit/type": "^1.0.1-alpha.71",
+    "deepkit-openapi": "^0.0.1",
+    "rxjs": "^7.5.5",
+    "ts-node": "^10.8.1",
+    "yaml": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

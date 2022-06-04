@@ -21,7 +21,11 @@ export interface SchemeEntry {
   type: Type;
 }
 
-export type RegistableSchema = TypeClass | TypeObjectLiteral | TypeEnum | TypeUnion;
+export type RegistableSchema =
+  | TypeClass
+  | TypeObjectLiteral
+  | TypeEnum
+  | TypeUnion;
 
 export class SchemaRegistry {
   store: Map<string, SchemeEntry> = new Map();
@@ -40,7 +44,11 @@ export class SchemaRegistry {
     }
 
     // HttpQueries<T>
-    if (metaAnnotation.getForName(t, "httpQueries")) {
+    if (
+      metaAnnotation.getForName(t, "httpQueries") ||
+      metaAnnotation.getForName(t, "httpBody") ||
+      metaAnnotation.getForName(t, "httpBodyValidation")
+    ) {
       return this.getSchemaKey(
         (t as RegistableSchema).typeArguments![0] as RegistableSchema,
       );
