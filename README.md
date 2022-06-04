@@ -1,18 +1,20 @@
 # Deepkit OpenAPI
 
-<center>
-    <img src="packages/docs/logo.svg" />
-</center>
+<br />
 
-<center>
+<p align="center">
+    <img src="packages/docs/logo.svg" />
+</p>
+
+<p align="center">
     <i>from types, to types</i>
-</center>
+</p>
 
 
 
 ## Introduction
 
-:warning:Hang tight! This library is under construction!:warning:
+:warning: Hang tight! This library is under construction! :warning:
 
 This is a [Deepkit Framework](https://deepkit.io/framework) module for automatically generating [OpenAPI V3](https://swagger.io/specification/) definitions.
 
@@ -92,11 +94,13 @@ Visit http://localhost:8080/openapi/index.html
 
 ![](packages/docs/2022-06-05-00-21-04.png)
 
-Now you get your OpenAPI documentation up and running with a single line of code! No annotation needed!
+Now you get your OpenAPI documentation up and running with a single line of code! No annotations needed!
 
 ```ts
 new OpenAPIModule({ prefix: "/openapi/" })
 ```
+
+## Usage
 
 ## Development
 
