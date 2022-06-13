@@ -16,6 +16,7 @@ import { stringify } from "yaml";
 import { eventDispatcher } from "@deepkit/event";
 import send from "send";
 import { stat } from "fs/promises";
+import { OpenAPI } from "deepkit-openapi-core";
 
 export class OpenAPIModule extends createModule({
   config: OpenAPIConfig,
@@ -25,6 +26,18 @@ export class OpenAPIModule extends createModule({
   protected routeFilter = new HttpRouteFilter().excludeRoutes({
     group: "app-static",
   });
+
+  protected configureOpenApiFunction: (openApi: OpenAPI) => void = () => {};
+
+  configureOpenApi(c: (openApi: OpenAPI) => void) {
+    this.configureOpenApiFunction = c;
+    return this;
+  }
+
+  configureHttpRouteFilter(c: (filter: HttpRouteFilter) => void) {
+    c(this.routeFilter);
+    return this;
+  };
 
   process() {
     this.addProvider({ provide: HttpRouteFilter, useValue: this.routeFilter });
@@ -37,6 +50,17 @@ export class OpenAPIModule extends createModule({
         private openApi: OpenAPIService,
         private config: OpenAPIConfig,
       ) {}
+
+      serialize() {
+        const openApi = this.openApi.serialize();
+
+        openApi.info.title = this.config.title;
+        openApi.info.description = this.config.description;
+        openApi.info.version = this.config.version;
+
+        module.configureOpenApiFunction(openApi);
+        return openApi;
+      }
 
       get staticDirectory() {
         return dirname(require.resolve("swagger-ui-dist"));
@@ -75,14 +99,14 @@ export class OpenAPIModule extends createModule({
           );
           response.end(this.swaggerInitializer);
         } else if (path.endsWith("/openapi.json")) {
-          const s = JSON.stringify(this.openApi.serialize(), undefined, 2);
+          const s = JSON.stringify(this.serialize(), undefined, 2);
           response.setHeader("content-type", "application/json; charset=utf-8");
           response.end(s);
         } else if (
           path.endsWith("/openapi.yaml") ||
           path.endsWith("/openapi.yml")
         ) {
-          const s = stringify(this.openApi.serialize(), {
+          const s = stringify(this.serialize(), {
             aliasDuplicateObjects: false,
           });
           response.setHeader("content-type", "text/yaml; charset=utf-8");

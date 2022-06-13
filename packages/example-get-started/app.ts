@@ -11,13 +11,13 @@ interface User {
   name: string;
   email: string & Email;
   password: string;
-};
+}
 
-interface CreateUser extends Omit<User, "id"> {};
+interface CreateUser extends Omit<User, "id"> {}
 
-interface UpdateUser extends Partial<User> {};
+interface UpdateUser extends Partial<User> {}
 
-interface ReadUser extends Omit<User, "password"> {};
+interface ReadUser extends Omit<User, "password"> {}
 
 const db: User[] = [
   { id: 1, name: "Bob", email: "bob@gmail.com", password: "123" },
@@ -59,15 +59,23 @@ class UserController {
       return user;
     }
 
-    throw new HttpError('User not found', 404);
+    throw new HttpError("User not found", 404);
   }
+
+  @http.GET("/filtered").group("filtered")
+  filtered() {}
 }
 
 new App({
   providers: [UserController],
   controllers: [UserController],
   imports: [
-    new OpenAPIModule({ prefix: "/openapi/" }),
+    new OpenAPIModule({
+      prefix: "/openapi/",
+      title: "Users",
+      description: "Simple user server",
+      version: "0.0.0",
+    }).configureHttpRouteFilter((f) => f.excludeRoutes({ group: "filtered" })),
     new FrameworkModule({
       publicDir: "public",
       httpLog: true,
