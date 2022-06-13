@@ -78,12 +78,6 @@ export class TypeSchemaResolver {
         );
 
         return;
-      case ReflectionKind.boolean:
-        this.result.type = "boolean";
-        return;
-      case ReflectionKind.bigint:
-        this.result.type = "integer";
-        return;
       case ReflectionKind.class:
       case ReflectionKind.objectLiteral:
         this.resolveClassOrObjectLiteral();

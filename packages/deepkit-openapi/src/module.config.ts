@@ -1,6 +1,3 @@
-import { HttpRouteFilter } from "@deepkit/http";
-import { OpenAPI } from "deepkit-openapi-core";
-
 export class OpenAPIConfig {
   title: string = "OpenAPI";
   description: string = "";
