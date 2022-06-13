@@ -43,7 +43,7 @@ jobs:
             yarn postinstall
             yarn tsc
 
-            PWD=$(pwd)
+            PWD="$(pwd)"
 
             cd $PWD/packages/deepkit-openapi-core
             npm publish
