@@ -43,11 +43,9 @@ jobs:
             yarn postinstall
             yarn tsc
 
-            PWD="$(pwd)"
-
-            cd $PWD/packages/deepkit-openapi-core
+            cd /home/circleci/project/packages/deepkit-openapi-core
             npm publish || true
-            cd $PWD/packages/deepkit-openapi
+            cd /home/circleci/project/packages/deepkit-openapi
             npm publish || true
 
 workflows:
