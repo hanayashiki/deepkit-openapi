@@ -43,6 +43,9 @@ jobs:
             yarn postinstall
             yarn tsc
 
+            cp README.md /home/circleci/project/packages/deepkit-openapi/
+            cp README.md /home/circleci/project/packages/deepkit-openapi-core/
+
             cd /home/circleci/project/packages/deepkit-openapi-core
             npm publish || true
             cd /home/circleci/project/packages/deepkit-openapi
