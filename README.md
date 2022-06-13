@@ -1,3 +1,4 @@
+![deepkit-openapi](https://img.shields.io/badge/-deepkit--openapi-green) ![npm](https://img.shields.io/npm/v/deepkit-openapi) ![deepkit-openapi](https://img.shields.io/badge/-deepkit--openapi--core-darkgreen) ![npm](https://img.shields.io/npm/v/deepkit-openapi-core) ![ts](https://img.shields.io/badge/-typescript-%20%233078c6) ![deepkit](https://img.shields.io/badge/-deepkit-black)
 # Deepkit OpenAPI
 
 <br />
