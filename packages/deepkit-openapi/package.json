@@ -3,12 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
   "types": "./dist/cjs/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "default": "./dist/esm/index.js"
+      "default": "./dist/cjs/index.js"
     }
   },
   "scripts": {},
@@ -64,5 +62,8 @@
   ],
   "repository": "https://github.com/hanayashiki/deepkit-openapi",
   "author": "Chenyu Wang <wangchenyu2017@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
