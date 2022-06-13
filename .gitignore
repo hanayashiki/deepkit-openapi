@@ -88,3 +88,4 @@ storybook-static/
 tsconfig.tsbuildinfo
 
 var/
+package-lock.json
