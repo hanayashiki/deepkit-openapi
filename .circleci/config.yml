@@ -46,9 +46,9 @@ jobs:
             PWD="$(pwd)"
 
             cd $PWD/packages/deepkit-openapi-core
-            npm publish
+            npm publish || true
             cd $PWD/packages/deepkit-openapi
-            npm publish
+            npm publish || true
 
 workflows:
   # Below is the definition of your workflow.
