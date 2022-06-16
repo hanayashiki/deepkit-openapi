@@ -1,4 +1,4 @@
-![deepkit-openapi](https://img.shields.io/badge/-deepkit--openapi-green) ![npm](https://img.shields.io/npm/v/deepkit-openapi) ![deepkit-openapi](https://img.shields.io/badge/-deepkit--openapi--core-darkgreen) ![npm](https://img.shields.io/npm/v/deepkit-openapi-core) ![ts](https://img.shields.io/badge/-typescript-%20%233078c6) ![deepkit](https://img.shields.io/badge/-deepkit-black)
+[![deepkit-openapi](https://img.shields.io/badge/-deepkit--openapi-green)](https://www.npmjs.com/package/deepkit-openapi) [![npm](https://img.shields.io/npm/v/deepkit-openapi)](https://www.npmjs.com/package/deepkit-openapi) [![deepkit-openapi](https://img.shields.io/badge/-deepkit--openapi--core-darkgreen)](https://www.npmjs.com/package/deepkit-openapi-core) [![npm](https://img.shields.io/npm/v/deepkit-openapi-core)](https://www.npmjs.com/package/deepkit-openapi-core) [![ts](https://img.shields.io/badge/-typescript-%20%233078c6)](https://www.typescriptlang.org/) [![deepkit](https://img.shields.io/badge/-deepkit-black)](https://deepkit.io/)
 # Deepkit OpenAPI
 
 <br />
