@@ -4,7 +4,7 @@ import { http, HttpBody, HttpError } from "@deepkit/http";
 import { FrameworkModule } from "@deepkit/framework";
 import { JSONTransport, Logger } from "@deepkit/logger";
 import { App } from "@deepkit/app";
-import { OpenAPIModule } from "deepkit-openapi";
+import { OpenAPIModule, Name } from "deepkit-openapi";
 import { Email } from "@deepkit/type";
 
 type User = {
@@ -16,9 +16,9 @@ type User = {
 
 type CreateUser = Omit<User, "id">;
 
-type UpdateUser = Partial<User>;
+interface UpdateUser extends Partial<User> {};
 
-type ReadUser = Omit<User, "password">;
+type ReadUser = Omit<User, "password"> & Name<'ReadUser'>;;
 
 const db: User[] = [
   { id: 1, name: "Bob", email: "bob@gmail.com", password: "123" },
@@ -32,7 +32,7 @@ class UserController {
     return db.find((user) => user.id === id);
   }
 
-  @http.POST("/user/").response<ReadUser>(200, "Create a User")
+  @http.POST("/user").response<ReadUser>(200, "Create a User")
   create(user: HttpBody<CreateUser>) {
     const newUser = { ...user, id: Date.now() };
     db.push(newUser);

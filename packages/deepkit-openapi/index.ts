@@ -1,3 +1,3 @@
 export * from './src/service';
 export * from './src/module';
-export * from 'deepkit-openapi-core'
+export * from 'deepkit-openapi-core';

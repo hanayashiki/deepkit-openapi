@@ -1,5 +1,5 @@
 import { ClassType } from "@deepkit/core";
-import { parseRouteControllerAction, RouteConfig } from "@deepkit/http";
+import { parseRouteControllerAction, RouteClassControllerAction, RouteConfig } from "@deepkit/http";
 import camelcase from "camelcase";
 import {
   DeepKitOpenApiControllerNameConflict,
@@ -117,6 +117,10 @@ export class OpenAPIDocument {
   }
 
   registerRoute(route: RouteConfig) {
+    if (route.action.type !== 'controller') {
+      throw new Error('Sorry, only controller routes are currently supported!');
+    }
+
     const controller = route.action.controller;
     const tag = this.registerTag(controller);
     const parsedRoute = parseRouteControllerAction(route);
@@ -129,6 +133,10 @@ export class OpenAPIDocument {
       this.errors.push(...parametersResolver.errors);
 
       const responses = this.resolveResponses(route);
+
+      if (route.action.type !== 'controller') {
+        throw new Error('Sorry, only controller routes are currently supported!');
+      }
 
       const operation: Operation = {
         __path: `${route.baseUrl}${route.path}`,

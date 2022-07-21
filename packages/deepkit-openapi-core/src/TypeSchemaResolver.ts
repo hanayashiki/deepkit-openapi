@@ -9,6 +9,7 @@ import { AnySchema, Schema } from "./types";
 import {
   reflect,
   ReflectionKind,
+  stringifyType,
   Type,
   TypeClass,
   TypeEnum,
@@ -158,6 +159,7 @@ export class TypeSchemaResolver {
     }
 
     const registryKey = this.schemaRegisty.getSchemaKey(this.t);
+
     if (registryKey) {
       this.schemaRegisty.registerSchema(registryKey, this.t, this.result);
     }

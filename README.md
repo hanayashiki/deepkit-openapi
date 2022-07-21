@@ -280,7 +280,7 @@ However, this doesn't work for `openapi-deepkit` if you define the following con
     // return ...;
   }
 
-  @http.POST("/user/").response<ReadUser>(200, "Create a User")
+  @http.POST("/user").response<ReadUser>(200, "Create a User")
   create(user: HttpBody<CreateUser>) {
     // return ...;
   }
