@@ -1659,6 +1659,23 @@ deep-extend@^0.6.0:
   resolved "https://registry.npmjs.org/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
 
+deepkit-openapi-core@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/deepkit-openapi-core/-/deepkit-openapi-core-0.0.2.tgz#a7fd76dba6edb644c14aecad490a9465b96062bd"
+  integrity sha512-IakTHk1/5HxkOmSpu9rMHtm7TdcGMoSrGAsrfVZqdaLXV3XdwS2R5RP2pjc9OypwGxh+PgtdPENp5jhkkK7JHg==
+  dependencies:
+    camelcase "6.3.0"
+    lodash.clonedeepwith "4.5.0"
+
+deepkit-openapi@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/deepkit-openapi/-/deepkit-openapi-0.0.4.tgz#68d5bc9d039d34428d8fdabe63f367cd44d0fcb5"
+  integrity sha512-MQk89b6QZpqJ1BZVGrymO1GT/Dsx20peQ3Qphs2bVanx5YgLxMHvAHHovhbva0031ARj63JJo+BMhbw7Pg8XJQ==
+  dependencies:
+    deepkit-openapi-core "^0.0.2"
+    swagger-ui-dist "^4.13.0"
+    yaml "^2.1.1"
+
 deepmerge@^4.2.2:
   version "4.2.2"
   resolved "https://registry.npmjs.org/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
