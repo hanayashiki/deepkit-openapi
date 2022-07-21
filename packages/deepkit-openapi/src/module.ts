@@ -146,6 +146,7 @@ export class OpenAPIModule extends createModule({
 
         event.routeFound(
           new RouteConfig("static", ["GET"], event.url, {
+            type: 'controller',
             controller: OpenApiStaticRewritingListener,
             module,
             methodName: "serve",
