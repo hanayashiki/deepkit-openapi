@@ -25,6 +25,8 @@ OpenAPI, on the other hand, is a popular schema for HTTP API definitions. There 
 
 ## Get Started
 
+*Warning: This package is intended to only work with deepkit*
+
 ### Install Deepkit Openapi
 
 npm
@@ -254,7 +256,7 @@ Types *not* planned to support:
 4. Functions
 5. Other types that make no sense once serialized.
 
-### Write types in a deepkit-friendly way
+### Define your API types in TypeScript
 
 With deepkit, you can enjoy the simplicity of manipulating your types for validation:
 
@@ -272,66 +274,45 @@ type ReadUser = Omit<User, 'password'>;
 type CreateUser = Omit<User, 'id'>;
 ```
 
-However, this doesn't work for `openapi-deepkit` if you define the following controllers:
+The example above gives us the following OpenAPI schemas:
 
-```ts
-  @http.GET("/user/:id").response<ReadUser>(200, "Read a User by its ID")
-  read(id: number) {
-    // return ...;
-  }
-
-  @http.POST("/user").response<ReadUser>(200, "Create a User")
-  create(user: HttpBody<CreateUser>) {
-    // return ...;
-  }
+```yml
+components:
+  schemas:
+    ReadUser:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+      required:
+        - id
+        - name
+    CreateUser:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+        - password
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - name
+        - password
 ```
-
-It will not generate a normal body name for `create` method, becasue the name `CreateUser` is "forgotten" by deepkit. You will get a bare interface as this:
-
-```ts
-interface User {
-  name: string;
-  password: string;
-}
-```
-
-The problem here is, `deepkit-openapi` will generate two schemas different in type but with the same name `User`. We need the user to provide us the name of the type to generate human-readable OpenAPI documentations.
-
-The workaround would be:
-
-```ts
-interface User {
-  id: number;
-  name: string;
-  password: string;
-}
-
-interface ReadUser extends Omit<User, 'password'> {};
-
-interface CreateUser extends Omit<User, 'id'> {};
-```
-
-They are further resolved to, from the perspective of `deepkit`:
-
-```ts
-interface User {
-  id: number;
-  name: string;
-  password: string;
-}
-
-interface ReadUser {
-  id: number;
-  name: string;
-}
-
-interface CreateUser {
-  name: string;
-  password: string;
-}
-```
-
-Now, the names will be sufficient for `deepkit-openapi`.
 
 ## Contributing
 

@@ -4,6 +4,8 @@ import {
   TypedArray,
   reflect,
   TypeEnum,
+  metaAnnotation,
+  stringifyType,
 } from "@deepkit/type";
 import { unwrapTypeSchema } from "../src/TypeSchemaResolver";
 import { stringify } from "yaml";
@@ -64,3 +66,12 @@ console.log(typeOf<Action>());
 
 console.log(unwrapTypeSchema(typeOf<ActionOne | ActionTwo>()));
 
+type CustomA = { __meta?: ["CustomA"] };
+type CustomB = { __meta?: ["CustomB"] };
+
+type O = {} & CustomA;
+type Decorate<T> = T & CustomB;
+
+const decorated = typeOf<Decorate<O>>();
+
+console.log(metaAnnotation.getAnnotations(decorated));

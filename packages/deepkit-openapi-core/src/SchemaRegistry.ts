@@ -9,9 +9,11 @@ import {
   TypeEnum,
   TypeLiteral,
   TypeObjectLiteral,
+  typeOf,
   TypeUnion,
 } from "@deepkit/type";
 import camelcase from "camelcase";
+import { Name } from "./annotations";
 import { DeepKitOpenApiSchemaNameConflict } from "./errors";
 import { Schema } from "./types";
 

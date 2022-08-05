@@ -16,7 +16,7 @@
   "author": "hanayashiki",
   "license": "ISC",
   "dependencies": {
-    "@deepkit/type-compiler": "^1.0.1-alpha.74",
+    "@deepkit/type-compiler": "^1.0.1-alpha.75",
     "npm-local-development": "^0.4.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",

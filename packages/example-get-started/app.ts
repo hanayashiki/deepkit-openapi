@@ -13,11 +13,11 @@ interface User {
   password: string;
 }
 
-interface CreateUser extends Omit<User, "id"> {}
+type CreateUser = Omit<User, "id">;
 
-interface UpdateUser extends Partial<User> {}
+type UpdateUser = Partial<User>;
 
-interface ReadUser extends Omit<User, "password"> {}
+type ReadUser = Omit<User, "password">;
 
 const db: User[] = [
   { id: 1, name: "Bob", email: "bob@gmail.com", password: "123" },

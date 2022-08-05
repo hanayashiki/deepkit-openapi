@@ -5,7 +5,7 @@ import { FrameworkModule } from "@deepkit/framework";
 import { JSONTransport, Logger } from "@deepkit/logger";
 import { App } from "@deepkit/app";
 import { OpenAPIModule, Name } from "deepkit-openapi";
-import { Email } from "@deepkit/type";
+import { Email, MaxLength, metaAnnotation, typeOf, validationAnnotation } from "@deepkit/type";
 
 type User = {
   id: number;
@@ -16,7 +16,7 @@ type User = {
 
 type CreateUser = Omit<User, "id">;
 
-interface UpdateUser extends Partial<User> {};
+type UpdateUser = Partial<User> & Name<'UpdateUser'>;
 
 type ReadUser = Omit<User, "password"> & Name<'ReadUser'>;;
 
