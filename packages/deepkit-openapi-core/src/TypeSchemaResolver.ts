@@ -242,15 +242,15 @@ export class TypeSchemaResolver {
         this.errors.push(
           new TypeNotSupported(this.t, `Validator ${name} is not supported. `),
         );
-      }
-
-      try {
-        this.result = validator(this.result, ...(args as [any]));
-      } catch (e) {
-        if (e instanceof TypeNotSupported) {
-          this.errors.push(e);
-        } else {
-          throw e;
+      } else {
+        try {
+          this.result = validator(this.result, ...(args as [any]));
+        } catch (e) {
+          if (e instanceof TypeNotSupported) {
+            this.errors.push(e);
+          } else {
+            throw e;
+          }
         }
       }
     }
