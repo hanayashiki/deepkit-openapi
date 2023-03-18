@@ -137,9 +137,11 @@ export class OpenAPIDocument {
       if (route.action.type !== 'controller') {
         throw new Error('Sorry, only controller routes are currently supported!');
       }
+      
+      const slash = route.path.length === 0 || route.path.startsWith('/') ? '' : '/';
 
       const operation: Operation = {
-        __path: `${route.baseUrl}${route.path}`,
+        __path: `${route.baseUrl}${slash}${route.path}`,
         __method: method.toLowerCase(),
         tags: [tag.name],
         operationId: camelcase([method, tag.name, route.action.methodName]),
