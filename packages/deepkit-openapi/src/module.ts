@@ -117,6 +117,11 @@ export class OpenAPIModule extends createModule({
               "/",
               request.url!.substring(this.prefix.length),
             );
+            if (relativePath === "") {
+              response.setHeader("location", this.prefix + "index.html");
+              response.status(301);
+              return;
+            }
             const finalLocalPath = join(this.staticDirectory, relativePath);
 
             const statResult = await stat(finalLocalPath);
