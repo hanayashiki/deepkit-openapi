@@ -1,21 +1,21 @@
 import {
   HttpRouteFilter,
-  HttpRouterFilterResolver,
-  normalizeDirectory,
+  HttpRouterFilterResolver
 } from "@deepkit/http";
+import { ScopedLogger } from "@deepkit/logger";
 import { OpenAPIDocument } from "deepkit-openapi-core";
-import { OpenAPI } from "deepkit-openapi-core";
-import { OpenAPIConfig } from "./module.config";
+
 
 export class OpenAPIService {
   constructor(
     private routerFilter: HttpRouteFilter,
     protected filterResolver: HttpRouterFilterResolver,
+    private logger: ScopedLogger
   ) {}
 
   serialize() {
     const routes = this.filterResolver.resolve(this.routerFilter.model);
-    const openApiDocument = new OpenAPIDocument(routes);
+    const openApiDocument = new OpenAPIDocument(routes, this.logger);
     const result = openApiDocument.serializeDocument();
 
     return result;
