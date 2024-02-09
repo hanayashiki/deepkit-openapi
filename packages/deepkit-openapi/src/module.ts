@@ -156,7 +156,7 @@ export class OpenAPIModule extends createModule({
             module,
             methodName: "serve",
           }),
-          () => [relativePath, event.request, event.response],
+          () => ({arguments: [relativePath, event.request, event.response], parameters: {}}),
         );
       }
     }
