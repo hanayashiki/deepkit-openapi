@@ -22,6 +22,7 @@ import cloneDeepWith from "lodash.clonedeepwith";
 import { resolveOpenApiPath } from "./utils";
 import { resolveTypeSchema } from "./TypeSchemaResolver";
 import { ReflectionKind } from "@deepkit/type";
+import { ScopedLogger } from "@deepkit/logger";
 
 export class OpenAPIDocument {
   schemaRegistry = new SchemaRegistry();
@@ -32,7 +33,7 @@ export class OpenAPIDocument {
 
   errors: DeepKitTypeError[] = [];
 
-  constructor(private routes: RouteConfig[]) {}
+  constructor(private routes: RouteConfig[], private log: ScopedLogger) {}
 
   getControllerName(controller: ClassType) {
     // TODO: Allow customized name
@@ -63,7 +64,7 @@ export class OpenAPIDocument {
 
   getDocument(): OpenAPI {
     for (const route of this.routes) {
-      this.registerRoute(route);
+      this.registerRouteSafe(route);
     }
 
     const openapi: OpenAPI = {
@@ -116,6 +117,14 @@ export class OpenAPIDocument {
     });
   }
 
+  registerRouteSafe(route: RouteConfig) {
+    try {
+      this.registerRoute(route);
+    } catch (err: any) {
+      this.log.error(`Failed to register route ${route.httpMethods.join(',')} ${route.getFullPath()}`, err);
+    }
+  }
+
   registerRoute(route: RouteConfig) {
     if (route.action.type !== 'controller') {
       throw new Error('Sorry, only controller routes are currently supported!');
@@ -137,7 +146,7 @@ export class OpenAPIDocument {
       if (route.action.type !== 'controller') {
         throw new Error('Sorry, only controller routes are currently supported!');
       }
-      
+
       const slash = route.path.length === 0 || route.path.startsWith('/') ? '' : '/';
 
       const operation: Operation = {

@@ -52,7 +52,7 @@ export class SchemaRegistry {
       metaAnnotation.getForName(t, "httpBodyValidation")
     ) {
       return this.getSchemaKey(
-        (t as RegistableSchema).typeArguments![0] as RegistableSchema,
+        ((t as RegistableSchema).typeArguments?.[0] ?? (t as RegistableSchema).originTypes?.[0]) as RegistableSchema,
       );
     }
 

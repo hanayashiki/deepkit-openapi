@@ -85,7 +85,7 @@ new App({
 
     if (config.environment === "production") {
       //enable logging JSON messages instead of formatted strings
-      module.setupProvider<Logger>().setTransport([new JSONTransport()]);
+      module.configureProvider<Logger>(p => p.setTransport([new JSONTransport()]));
     }
   })
   .loadConfigFromEnv()
