@@ -7,6 +7,7 @@ import {
 import { AnySchema, Schema } from "./types";
 
 import {
+  isDateType,
   reflect,
   ReflectionKind,
   stringifyType,
@@ -107,6 +108,12 @@ export class TypeSchemaResolver {
       this.t.kind !== ReflectionKind.class &&
       this.t.kind !== ReflectionKind.objectLiteral
     ) {
+      return;
+    }
+
+    // Dates will be serialized to string
+    if (isDateType(this.t)) {
+      this.result.type = "string";
       return;
     }
 
