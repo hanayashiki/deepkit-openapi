@@ -1,6 +1,6 @@
 {
   "name": "deepkit-openapi",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "scripts": {},
   "dependencies": {
-    "deepkit-openapi-core": "^0.0.4",
+    "deepkit-openapi-core": "^0.0.7",
     "swagger-ui-dist": "^5.11.3",
     "yaml": "^2.3.4"
   },

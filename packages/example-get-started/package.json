@@ -21,7 +21,7 @@
     "@deepkit/sql": "^1.0.1-alpha.131",
     "@deepkit/sqlite": "^1.0.1-alpha.131",
     "@deepkit/type": "^1.0.1-alpha.131",
-    "deepkit-openapi": "^0.0.6",
+    "deepkit-openapi": "^0.0.7",
     "rxjs": "^7.8.1",
     "ts-node": "^10.9.2",
     "yaml": "^2.3.4"
