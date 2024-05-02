@@ -76,11 +76,12 @@ export class ParametersResolver {
         });
       } else if (parameter.body || parameter.bodyValidation) {
         if (
+          type.kind !== ReflectionKind.array &&
           type.kind !== ReflectionKind.class &&
           type.kind !== ReflectionKind.objectLiteral
         ) {
           throw new DeepKitOpenApiError(
-            "HttpBody or HttpBodyValidation should be either class or object literal. ",
+            "HttpBody or HttpBodyValidation should be either array, class, or object literal.",
           );
         }
 
