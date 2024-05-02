@@ -6,6 +6,7 @@ import { JSONTransport, Logger } from "@deepkit/logger";
 import { App } from "@deepkit/app";
 import { OpenAPIModule, Name } from "deepkit-openapi";
 import { Email, MaxLength, metaAnnotation, typeOf, validationAnnotation } from "@deepkit/type";
+import { MainController } from "./src/controller/main.http";
 
 type User = {
   id: number;
@@ -65,8 +66,8 @@ class UserController {
 }
 
 new App({
-  providers: [UserController],
-  controllers: [UserController],
+  providers: [UserController, MainController],
+  controllers: [UserController, MainController],
   imports: [
     new OpenAPIModule({ prefix: "/openapi/" }),
     new FrameworkModule({

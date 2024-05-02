@@ -22,7 +22,7 @@
     "@deepkit/sql": "^1.0.1-alpha.131",
     "@deepkit/sqlite": "^1.0.1-alpha.131",
     "@deepkit/type": "^1.0.1-alpha.131",
-    "deepkit-openapi": "^0.0.7",
+    "deepkit-openapi": "^0.0.8",
     "rxjs": "^7.8.1",
     "yaml": "^2.3.4"
   },

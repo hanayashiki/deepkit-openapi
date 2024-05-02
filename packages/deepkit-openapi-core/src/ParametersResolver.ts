@@ -11,7 +11,7 @@ export class ParametersResolver {
 
   constructor(
     private parsedRoute: ParsedRoute,
-    private schemeRegistry: SchemaRegistry,
+    private schemeRegistry: SchemaRegistry
   ) {}
 
   resolve() {
@@ -35,7 +35,7 @@ export class ParametersResolver {
           type.kind !== ReflectionKind.objectLiteral
         ) {
           throw new DeepKitOpenApiError(
-            "HttpQueries should be either class or object literal. ",
+            "HttpQueries should be either class or object literal. "
           );
         }
 
@@ -44,7 +44,7 @@ export class ParametersResolver {
         this.errors.push(...schemaResult.errors);
 
         for (const [name, property] of Object.entries(
-          schemaResult.result.properties!,
+          schemaResult.result.properties!
         )) {
           if (!this.parameters.find((p) => p.name === name)) {
             this.parameters.push({
@@ -57,9 +57,9 @@ export class ParametersResolver {
             this.errors.push(
               new DeepKitTypeError(
                 `Parameter name ${JSON.stringify(
-                  name,
-                )} is repeated. Please consider renaming them. `,
-              ),
+                  name
+                )} is repeated. Please consider renaming them. `
+              )
             );
           }
         }
@@ -81,7 +81,7 @@ export class ParametersResolver {
           type.kind !== ReflectionKind.objectLiteral
         ) {
           throw new DeepKitOpenApiError(
-            "HttpBody or HttpBodyValidation should be either array, class, or object literal.",
+            "HttpBody or HttpBodyValidation should be either array, class, or object literal."
           );
         }
 
