@@ -13,7 +13,6 @@ import {
   TypeUnion,
 } from "@deepkit/type";
 import camelcase from "camelcase";
-import { Name } from "./annotations";
 import { DeepKitOpenApiSchemaNameConflict } from "./errors";
 import { Schema } from "./types";
 
@@ -35,21 +34,18 @@ export class SchemaRegistry {
   getSchemaKey(t: RegistableSchema): string {
     const nameAnnotation = metaAnnotation
       .getAnnotations(t)
-      .find((t) => t.name === "openapi");
+      .find((t) => t.name === "openapi:name");
 
     // Handle user preferred name
-    if (
-      nameAnnotation?.options[0]?.kind === ReflectionKind.literal &&
-      nameAnnotation?.options[0].literal === "name"
-    ) {
-      return (nameAnnotation?.options[1] as TypeLiteral).literal as string;
+    if (nameAnnotation?.options.kind === ReflectionKind.literal) {
+      return nameAnnotation.options.literal as string;
     }
 
     // HttpQueries<T>
     if (
-      metaAnnotation.getForName(t, "httpQueries") ||
-      metaAnnotation.getForName(t, "httpBody") ||
-      metaAnnotation.getForName(t, "httpBodyValidation")
+      t.typeName === "HttpQueries" ||
+      t.typeName === "HttpBody" ||
+      t.typeName === "HttpBodyValidation"
     ) {
       return this.getSchemaKey(
         ((t as RegistableSchema).typeArguments?.[0] ?? (t as RegistableSchema).originTypes?.[0]) as RegistableSchema,

@@ -1,16 +1,7 @@
-export type Format<Name extends string> = { __meta?: ["openapi", "format", Name] };
+import { TypeAnnotation } from "@deepkit/core";
 
-export type Default<Value extends string | number | (() => any)> = {
-  __meta?: ["openapi", "default", Value];
-};
-
-export type Description<Text extends string> = {
-  __meta?: ["openapi", "description", Text];
-};
-
-export type Deprecated = {
-  __meta?: ["openapi", "deprecated", Text];
-};
-
-export type Name<Text extends string> = { __meta?: ["openapi", "name", Text] };
-
+export type Format<Name extends string> = TypeAnnotation<'openapi:format', Name>;
+export type Default<Value extends string | number | (() => any)> = TypeAnnotation<'openapi:default', Value>;
+export type Description<Text extends string> = TypeAnnotation<'openapi:description', Text>;
+export type Deprecated = TypeAnnotation<'openapi:deprecated', true>;
+export type Name<Text extends string> = TypeAnnotation<'openapi:name', Text>;

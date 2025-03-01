@@ -3,7 +3,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "name": "deepkit-openapi",
+  "name": "deepkit-openapi-monorepo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,11 +16,11 @@
   "author": "hanayashiki",
   "license": "ISC",
   "dependencies": {
-    "@deepkit/type-compiler": "^1.0.1-alpha.123",
+    "@deepkit/type-compiler": "^1.0.2",
     "npm-local-development": "^0.4.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "~5.7"
   },
-  "devDependencies": {}
+  "packageManager": "yarn@4.6.0"
 }

@@ -45,12 +45,12 @@ export class MainController {
     protected openApi: OpenAPIService
   ) {}
 
-  @http.POST("/add").description("Adds a new user")
+  @(http.POST("/add").description("Adds a new user"))
   async add(body: HttpBodyValidation<AddUserDto>) {
     return body;
   }
 
-  @http.POST("/upload").description("Uploaded files")
+  @(http.POST("/upload").description("Uploaded files"))
   async upload(body: HttpBody<UploadedFiles>) {
     return body;
   }
@@ -89,7 +89,7 @@ export class MainController {
     return typeof q1.a;
   }
 
-  @http.GET("/withResponse").response(200, "Only name is showed", UserNameOnly)
+  @(http.GET("/withResponse").response(200, "Only name is showed", UserNameOnly))
   async withResponse() {
     return new User();
   }
