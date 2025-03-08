@@ -9,38 +9,37 @@
       "default": "./dist/cjs/index.js"
     }
   },
-  "scripts": {},
   "dependencies": {
-    "deepkit-openapi-core": "^0.0.8",
-    "swagger-ui-dist": "^5.11.3",
-    "yaml": "^2.3.4"
+    "deepkit-openapi-core": "workspace:*",
+    "swagger-ui-dist": "^5.20.0",
+    "yaml": "^2.7.0"
   },
   "devDependencies": {
-    "@deepkit/app": "^1.0.1-alpha.131",
-    "@deepkit/core": "1.0.1-alpha.124",
-    "@deepkit/event": "^1.0.1-alpha.131",
-    "@deepkit/framework": "^1.0.1-alpha.131",
-    "@deepkit/http": "^1.0.1-alpha.131",
-    "@deepkit/injector": "^1.0.1-alpha.131",
-    "@deepkit/logger": "^1.0.1-alpha.131",
-    "@deepkit/stopwatch": "^1.0.1-alpha.131",
-    "@deepkit/template": "^1.0.1-alpha.131",
-    "@deepkit/type": "^1.0.1-alpha.131",
-    "@deepkit/workflow": "^1.0.1-alpha.131",
+    "@deepkit/app": "^1.0.2",
+    "@deepkit/core": "1.0.1",
+    "@deepkit/event": "^1.0.2",
+    "@deepkit/framework": "^1.0.2",
+    "@deepkit/http": "^1.0.2",
+    "@deepkit/injector": "^1.0.2",
+    "@deepkit/logger": "^1.0.2",
+    "@deepkit/stopwatch": "^1.0.2",
+    "@deepkit/template": "^1.0.2",
+    "@deepkit/type": "^1.0.2",
+    "@deepkit/workflow": "^1.0.2",
     "@types/send": "^0.17.4",
-    "@types/swagger-ui-dist": "^3.30.4"
+    "@types/swagger-ui-dist": "^3.30.5"
   },
   "peerDependencies": {
-    "@deepkit/app": "^1.0.1-alpha.131",
-    "@deepkit/core": "1.0.1-alpha.124",
-    "@deepkit/framework": "^1.0.1-alpha.131",
-    "@deepkit/http": "^1.0.1-alpha.131",
-    "@deepkit/injector": "^1.0.1-alpha.131",
-    "@deepkit/logger": "^1.0.1-alpha.131",
-    "@deepkit/stopwatch": "^1.0.1-alpha.131",
-    "@deepkit/template": "^1.0.1-alpha.131",
-    "@deepkit/type": "^1.0.1-alpha.131",
-    "@deepkit/workflow": "^1.0.1-alpha.131",
+    "@deepkit/app": "^1.0.2",
+    "@deepkit/core": "1.0.1",
+    "@deepkit/framework": "^1.0.2",
+    "@deepkit/http": "^1.0.2",
+    "@deepkit/injector": "^1.0.2",
+    "@deepkit/logger": "^1.0.2",
+    "@deepkit/stopwatch": "^1.0.2",
+    "@deepkit/template": "^1.0.2",
+    "@deepkit/type": "^1.0.2",
+    "@deepkit/workflow": "^1.0.2",
     "send": "^0.18.0"
   },
   "keywords": [

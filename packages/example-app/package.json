@@ -4,7 +4,7 @@
   "version": "1.0.1-alpha.0",
   "description": "",
   "scripts": {
-    "start": "NODE_OPTIONS=--enable-source-maps nodemon --watch ../deepkit-openapi-core/dist --watch ../deepkit-openapi/dist dist/app server:start",
+    "start": "node --enable-source-maps --inspect --watch dist/app server:start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -22,12 +22,9 @@
     "@deepkit/sql": "^1.0.1-alpha.131",
     "@deepkit/sqlite": "^1.0.1-alpha.131",
     "@deepkit/type": "^1.0.1-alpha.131",
-    "deepkit-openapi": "^0.0.8",
+    "deepkit-openapi": "workspace:*",
     "rxjs": "^7.8.1",
     "yaml": "^2.3.4"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.3"
   },
   "keywords": [],
   "author": "",

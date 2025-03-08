@@ -26,19 +26,19 @@ const db: User[] = [
 
 @http.controller()
 class UserController {
-  @http.GET("/user/:id").response<ReadUser>(200, "Read a User by its ID")
+  @(http.GET("/user/:id").response<ReadUser>(200, "Read a User by its ID"))
   read(id: number) {
     return db.find((user) => user.id === id);
   }
 
-  @http.POST("/user/").response<ReadUser>(200, "Create a User")
+  @(http.POST("/user/").response<ReadUser>(200, "Create a User"))
   create(user: HttpBody<CreateUser>) {
     const newUser = { ...user, id: Date.now() };
     db.push(newUser);
     return user;
   }
 
-  @http.PATCH("/user/:id").response<ReadUser>(200, "Patch a User's attributes")
+  @(http.PATCH("/user/:id").response<ReadUser>(200, "Patch a User's attributes"))
   patch(id: number, patch: HttpBody<UpdateUser>) {
     const user = db.find((user) => user.id === id);
 
@@ -49,7 +49,7 @@ class UserController {
     return user;
   }
 
-  @http.DELETE("/user/:id").response<ReadUser>(200, "Delete a User by its ID")
+  @(http.DELETE("/user/:id").response<ReadUser>(200, "Delete a User by its ID"))
   delete(id: number) {
     const index = db.findIndex((user) => user.id === id);
 
@@ -62,11 +62,16 @@ class UserController {
     throw new HttpError("User not found", 404);
   }
 
-  @http.GET("/filtered").group("filtered")
+  @(http.GET("/filtered").group("filtered"))
   filtered() {}
 }
 
+class Config {
+  environment: "development" | "production" = "development";
+}
+
 new App({
+  config: Config,
   providers: [UserController],
   controllers: [UserController],
   imports: [

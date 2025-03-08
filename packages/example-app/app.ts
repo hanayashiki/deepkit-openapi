@@ -7,6 +7,7 @@ import { App } from "@deepkit/app";
 import { OpenAPIModule, Name } from "deepkit-openapi";
 import { Email, MaxLength, metaAnnotation, typeOf, validationAnnotation } from "@deepkit/type";
 import { MainController } from "./src/controller/main.http";
+import { Config } from "./src/config";
 
 type User = {
   id: number;
@@ -28,19 +29,19 @@ const db: User[] = [
 
 @http.controller()
 class UserController {
-  @http.GET("/user/:id").response<ReadUser>(200, "Read a User by its ID")
+  @(http.GET("/user/:id").response<ReadUser>(200, "Read a User by its ID"))
   read(id: number) {
     return db.find((user) => user.id === id);
   }
 
-  @http.POST("/user").response<ReadUser>(200, "Create a User")
+  @(http.POST("/user").response<ReadUser>(200, "Create a User"))
   create(user: HttpBody<CreateUser>) {
     const newUser = { ...user, id: Date.now() };
     db.push(newUser);
     return user;
   }
 
-  @http.PATCH("/user/:id").response<ReadUser>(200, "Patch a User's attributes")
+  @(http.PATCH("/user/:id").response<ReadUser>(200, "Patch a User's attributes"))
   patch(id: number, patch: HttpBody<UpdateUser>) {
     const user = db.find((user) => user.id === id);
 
@@ -51,7 +52,7 @@ class UserController {
     return user;
   }
 
-  @http.DELETE("/user/:id").response<ReadUser>(200, "Delete a User by its ID")
+  @(http.DELETE("/user/:id").response<ReadUser>(200, "Delete a User by its ID"))
   delete(id: number) {
     const index = db.findIndex((user) => user.id === id);
 
@@ -66,6 +67,7 @@ class UserController {
 }
 
 new App({
+  config: Config,
   providers: [UserController, MainController],
   controllers: [UserController, MainController],
   imports: [

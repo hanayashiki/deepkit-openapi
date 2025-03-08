@@ -1,4 +1,4 @@
-import { createModule } from "@deepkit/app";
+import { createModuleClass } from "@deepkit/app";
 import {
   HttpRequest,
   HttpResponse,
@@ -18,7 +18,7 @@ import send from "send";
 import { stat } from "fs/promises";
 import { OpenAPI } from "deepkit-openapi-core";
 
-export class OpenAPIModule extends createModule({
+export class OpenAPIModule extends createModuleClass({
   config: OpenAPIConfig,
   providers: [OpenAPIService],
   exports: [OpenAPIService],
@@ -86,7 +86,7 @@ export class OpenAPIModule extends createModule({
               ],
               layout: "StandaloneLayout"
             });
-    
+
           };
         `;
       }
