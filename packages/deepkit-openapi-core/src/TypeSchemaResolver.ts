@@ -55,7 +55,7 @@ export class TypeSchemaResolver {
         this.result.type = "number";
         return;
       case ReflectionKind.null:
-        this.result.type = "null";
+        this.result.nullable = true;
         return;
       case ReflectionKind.undefined:
         this.result.__isUndefined = true;
@@ -206,6 +206,18 @@ export class TypeSchemaResolver {
       return;
     }
 
+    const hasNull = this.t.types.some((t) => t.kind === ReflectionKind.null);
+    if (hasNull) {
+      this.result.nullable = true;
+      this.t = { ...this.t, types: this.t.types.filter((t) => t.kind !== ReflectionKind.null) };
+    }
+
+    // if there's only one type left in the union, pull it up a level and go back to resolveBasic
+    if (this.t.types.length === 1) {
+      this.t = this.t.types[0];
+      return this.resolveBasic();
+    }
+
     // Find out whether it is a union of literals. If so, treat it as an enum
     if (
       this.t.types.every(
@@ -227,15 +239,20 @@ export class TypeSchemaResolver {
       const { result, errors } = resolveTypeSchema(enumType, this.schemaRegisty);
       this.result = result;
       this.errors.push(...errors);
-    } else {
-      this.result.type = undefined;
-      this.result.oneOf = [];
-
-      for (const t of this.t.types) {
-        const { result, errors } = resolveTypeSchema(t, this.schemaRegisty);
-        this.result.oneOf?.push(result);
-        this.errors.push(...errors);
+      if (hasNull) {
+        this.result.enum!.push(null);
+        this.result.nullable = true;
       }
+      return;
+    }
+
+    this.result.type = undefined;
+    this.result.oneOf = [];
+
+    for (const t of this.t.types) {
+      const { result, errors } = resolveTypeSchema(t, this.schemaRegisty);
+      this.result.oneOf?.push(result);
+      this.errors.push(...errors);
     }
   }
 

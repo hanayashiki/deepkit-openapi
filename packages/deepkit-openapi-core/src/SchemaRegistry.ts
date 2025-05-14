@@ -108,7 +108,14 @@ export class SchemaRegistry {
       throw new DeepKitOpenApiSchemaNameConflict(type, currentEntry.type, name);
     }
 
-    this.store.set(name, { type, schema, name });
+    this.store.set(name, {
+      type,
+      name,
+      schema: {
+        ...schema,
+        nullable: undefined
+      }
+    });
     schema.__registryKey = name;
   }
 }

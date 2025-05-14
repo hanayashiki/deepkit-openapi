@@ -108,11 +108,20 @@ export class OpenAPIDocument {
 
   serializeDocument(): OpenAPI {
     return cloneDeepWith(this.getDocument(), (c) => {
-      if (typeof c === "object") {
+      if (c && typeof c === "object") {
         if (c.__type === "schema" && c.__registryKey && !c.__isComponent) {
-          return {
+          const ret = {
             $ref: `#/components/schemas/${c.__registryKey}`,
           };
+
+          if (c.nullable) {
+            return {
+              nullable: true,
+              allOf: [ret],
+            };
+          }
+
+          return ret;
         }
 
         for (const key of Object.keys(c)) {
