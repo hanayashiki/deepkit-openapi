@@ -1,7 +1,7 @@
 import { ReflectionKind } from "@deepkit/type";
 import { DeepKitOpenApiError, DeepKitTypeError } from "./errors";
 import { SchemaRegistry } from "./SchemaRegistry";
-import { Parameter, ParsedRoute, RequestBody } from "./types";
+import { MediaType, Parameter, ParsedRoute, RequestBody, RequestMediaTypeName } from "./types";
 import { resolveTypeSchema } from "./TypeSchemaResolver";
 
 export class ParametersResolver {
@@ -11,7 +11,8 @@ export class ParametersResolver {
 
   constructor(
     private parsedRoute: ParsedRoute,
-    private schemeRegistry: SchemaRegistry
+    private schemeRegistry: SchemaRegistry,
+    private contentTypes?: RequestMediaTypeName[]
   ) {}
 
   resolve() {
@@ -89,12 +90,24 @@ export class ParametersResolver {
 
         this.errors.push(...bodySchema.errors);
 
+        const contentTypes = this.contentTypes ?? [
+          "application/json",
+          "application/x-www-form-urlencoded",
+          "multipart/form-data",
+        ];
+
         this.requestBody = {
-          content: {
-            "application/json": { schema: bodySchema.result },
-            "application/x-www-form-urlencoded": { schema: bodySchema.result },
-            "multipart/form-data": { schema: bodySchema.result },
-          },
+          content: Object.fromEntries(
+            contentTypes.map((contentType) => [
+              contentType,
+              {
+                schema: bodySchema.result,
+              },
+            ])
+          ) as Record<
+            RequestMediaTypeName,
+            MediaType
+          >,
           required: !parameter.parameter.isOptional(),
         };
       }
