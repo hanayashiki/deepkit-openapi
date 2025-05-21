@@ -28,8 +28,12 @@ export type RegistableSchema =
   | TypeEnum
   | TypeUnion;
 
+export type SchemaKeyFn = (t: RegistableSchema) => string | undefined;
+
 export class SchemaRegistry {
   store: Map<string, SchemeEntry> = new Map();
+
+  constructor(private customSchemaKeyFn?: SchemaKeyFn) {}
 
   getSchemaKey(t: RegistableSchema): string {
     const nameAnnotation = metaAnnotation
@@ -50,6 +54,11 @@ export class SchemaRegistry {
       return this.getSchemaKey(
         ((t as RegistableSchema).typeArguments?.[0] ?? (t as RegistableSchema).originTypes?.[0]) as RegistableSchema,
       );
+    }
+
+    if (this.customSchemaKeyFn) {
+      const customName = this.customSchemaKeyFn(t);
+      if (customName) return customName;
     }
 
     const rootName =
@@ -99,7 +108,14 @@ export class SchemaRegistry {
       throw new DeepKitOpenApiSchemaNameConflict(type, currentEntry.type, name);
     }
 
-    this.store.set(name, { type, schema, name });
+    this.store.set(name, {
+      type,
+      name,
+      schema: {
+        ...schema,
+        nullable: undefined
+      }
+    });
     schema.__registryKey = name;
   }
 }

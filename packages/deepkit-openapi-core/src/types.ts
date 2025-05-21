@@ -23,6 +23,7 @@ export type Schema = {
   enum?: SimpleType[];
   properties?: Record<string, Schema>;
   required?: string[];
+  nullable?: boolean;
   items?: Schema;
   default?: any;
   oneOf?: Schema[];

@@ -7,7 +7,7 @@ import {
   DeepKitTypeError,
 } from "./errors";
 import { ParametersResolver } from "./ParametersResolver";
-import { SchemaRegistry } from "./SchemaRegistry";
+import { SchemaKeyFn, SchemaRegistry } from "./SchemaRegistry";
 import {
   Schema,
   HttpMethod,
@@ -17,6 +17,7 @@ import {
   ParsedRoute,
   Tag,
   Responses,
+  RequestMediaTypeName,
 } from "./types";
 import cloneDeepWith from "lodash.clonedeepwith";
 import { resolveOpenApiPath } from "./utils";
@@ -24,8 +25,13 @@ import { resolveTypeSchema } from "./TypeSchemaResolver";
 import { ReflectionKind } from "@deepkit/type";
 import { ScopedLogger } from "@deepkit/logger";
 
+export class OpenAPICoreConfig {
+  customSchemaKeyFn?: SchemaKeyFn;
+  contentTypes?: RequestMediaTypeName[];
+}
+
 export class OpenAPIDocument {
-  schemaRegistry = new SchemaRegistry();
+  schemaRegistry = new SchemaRegistry(this.config.customSchemaKeyFn);
 
   operations: Operation[] = [];
 
@@ -33,7 +39,7 @@ export class OpenAPIDocument {
 
   errors: DeepKitTypeError[] = [];
 
-  constructor(private routes: RouteConfig[], private log: ScopedLogger) {}
+  constructor(private routes: RouteConfig[], private log: ScopedLogger, private config: OpenAPICoreConfig = {}) {}
 
   getControllerName(controller: ClassType) {
     // TODO: Allow customized name
@@ -102,11 +108,20 @@ export class OpenAPIDocument {
 
   serializeDocument(): OpenAPI {
     return cloneDeepWith(this.getDocument(), (c) => {
-      if (typeof c === "object") {
+      if (c && typeof c === "object") {
         if (c.__type === "schema" && c.__registryKey && !c.__isComponent) {
-          return {
+          const ret = {
             $ref: `#/components/schemas/${c.__registryKey}`,
           };
+
+          if (c.nullable) {
+            return {
+              nullable: true,
+              allOf: [ret],
+            };
+          }
+
+          return ret;
         }
 
         for (const key of Object.keys(c)) {
@@ -138,6 +153,7 @@ export class OpenAPIDocument {
       const parametersResolver = new ParametersResolver(
         parsedRoute,
         this.schemaRegistry,
+        this.config.contentTypes
       ).resolve();
       this.errors.push(...parametersResolver.errors);
 

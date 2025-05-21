@@ -48,7 +48,7 @@ test("serialize atomic types", () => {
 
   expect(unwrapTypeSchema(typeOf<null>())).toMatchObject({
     __type: "schema",
-    type: "null",
+    nullable: true,
   });
 });
 
@@ -124,5 +124,54 @@ test("serialize union", () => {
     type: "string",
     enum: ["red", "black"],
     __registryKey: "EnumLike",
+  });
+});
+
+test("serialize nullables", () => {
+  const t1 = unwrapTypeSchema(typeOf<string>());
+  expect(t1).toMatchObject({
+    __type: "schema",
+    type: "string",
+  });
+  expect(t1.nullable).toBeUndefined();
+
+  const t2 = unwrapTypeSchema(typeOf<string | null>());
+  expect(t2).toMatchObject({
+    __type: "schema",
+    type: "string",
+    nullable: true,
+  });
+
+  interface ITest {
+    names: string[];
+  }
+  const t3 = unwrapTypeSchema(typeOf<ITest>());
+  expect(t3).toMatchObject({
+    __type: "schema",
+    type: "object",
+  });
+  expect(t3.nullable).toBeUndefined();
+
+  const t4 = unwrapTypeSchema(typeOf<ITest | null>());
+  expect(t4).toMatchObject({
+    __type: "schema",
+    type: "object",
+    nullable: true,
+  });
+
+  const t5 = unwrapTypeSchema(typeOf<'a' | 'b' | 'c'>());
+  expect(t5).toMatchObject({
+    __type: "schema",
+    type: "string",
+    enum: ["a", "b", "c"],
+  });
+  expect(t5.nullable).toBeUndefined();
+
+  const t6 = unwrapTypeSchema(typeOf<'a' | 'b' | 'c' | null>());
+  expect(t6).toMatchObject({
+    __type: "schema",
+    type: "string",
+    enum: ["a", "b", "c"],
+    nullable: true,
   });
 });
