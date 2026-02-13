@@ -2673,7 +2673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deepkit-openapi-core@workspace:*, deepkit-openapi-core@workspace:packages/deepkit-openapi-core":
+"deepkit-openapi-core@workspace:^, deepkit-openapi-core@workspace:packages/deepkit-openapi-core":
   version: 0.0.0-use.local
   resolution: "deepkit-openapi-core@workspace:packages/deepkit-openapi-core"
   dependencies:
@@ -2724,7 +2724,7 @@ __metadata:
     "@deepkit/workflow": "npm:^1.0.2"
     "@types/send": "npm:^0.17.4"
     "@types/swagger-ui-dist": "npm:^3.30.5"
-    deepkit-openapi-core: "workspace:*"
+    deepkit-openapi-core: "workspace:^"
     swagger-ui-dist: "npm:^5.20.0"
     yaml: "npm:^2.7.0"
   peerDependencies:

@@ -46,6 +46,9 @@ jobs:
             cp README.md /home/circleci/project/packages/deepkit-openapi/
             cp README.md /home/circleci/project/packages/deepkit-openapi-core/
 
+            CORE_VERSION=$(node -p "require('./packages/deepkit-openapi-core/package.json').version")
+            sed -i "s/\"workspace:\\^\"/\"^$CORE_VERSION\"/" /home/circleci/project/packages/deepkit-openapi/package.json
+
             cd /home/circleci/project/packages/deepkit-openapi-core
             npm publish || true
             cd /home/circleci/project/packages/deepkit-openapi
